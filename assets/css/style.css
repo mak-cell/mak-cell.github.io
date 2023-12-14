@@ -994,6 +994,26 @@ section {
   }
 }
 
+
+/* Style for the photo container */
+.photo-container {
+  width: 100%; /* Adjust as needed */
+  max-width: 1200px; /* Set the maximum width for responsiveness */
+  margin: 0 auto; /* Center the container */
+  overflow-x: auto; /* Enable horizontal scrolling if there are more photos than fit in a row */
+}
+
+/* Style for each photo */
+.photo-container img {
+  width: 100%; /* Make the image fill its container */
+  height: auto; /* Maintain aspect ratio */
+  max-width: calc(25% - 20px); /* Set the maximum width for each photo (4 photos in a row with 20px spacing) */
+  display: inline-block; /* Display photos in a row */
+  margin: 0 10px; /* Add spacing between photos (adjust as needed) */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+
 /*--------------------------------------------------------------
 # Breadcrumbs
 --------------------------------------------------------------*/
