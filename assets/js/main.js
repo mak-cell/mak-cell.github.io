@@ -254,3 +254,38 @@
   });
 
 })()
+
+
+const select = (el, all = false) => {
+  el = el.trim();
+  if (all) {
+    return [...document.querySelectorAll(el)];
+  } else {
+    return document.querySelector(el);
+  }
+}
+
+
+let photoContainer = select('#photo-section .photo-container');
+
+// Add your photos as 'a' (anchor) elements inside the container
+photoContainer.innerHTML = `
+  <a href="../img/profile-img.jpg" data-caption="Caption 1">
+    <img src="../img/profile-img.jpg" alt="Photo 1">
+  </a>
+  <!-- Add more photos here -->
+`;
+
+// Add more photos as needed
+photoContainer.innerHTML += `
+  <a href="../img/profile-img1.jpg" data-caption="Caption 2">
+    <img src="../img/profile-img1.jpg" alt="Photo 2">
+  </a>
+  <!-- Add more photos here -->
+`;
+
+// Initialize BaguetteBox for the photo section
+baguetteBox.run('#photo-section', {
+  animation: 'fadeIn', // You can customize the animation
+  buttons: true, // Add zoom buttons
+});

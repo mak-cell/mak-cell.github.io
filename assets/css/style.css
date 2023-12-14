@@ -213,7 +213,7 @@ h1, h2, h3, h4, h5, h6 {
 #hero {
   width: 100%;
   height: 100vh;
-  background: url("../img/hero-bg.jpg") top center;
+  background: url("../img/hero-bg2.jpg") top center;
   background-size: cover;
 }
 
@@ -239,21 +239,21 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 64px;
   font-weight: 700;
   line-height: 56px;
-  color: #fff;
+  color: #f00;
 }
 
 #hero p {
-  color: #fff;
+  color: #f00;
   margin-bottom: 50px;
   font-size: 26px;
   font-family: "Poppins", sans-serif;
 }
 
 #hero p span {
-  color: #fff;
+  color: #f00;
   padding-bottom: 4px;
   letter-spacing: 1px;
-  border-bottom: 3px solid #149ddd;
+  border-bottom: 3px solid #f00;
 }
 
 @media (min-width: 1024px) {
