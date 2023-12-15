@@ -275,66 +275,6 @@ const select = (el, all = false) => {
   }
 };
 
-let photoContainer = select("#photo-section .photo-container");
-
-// Add your photos as 'a' (anchor) elements inside the container
-photoContainer.innerHTML = `
-  <a href="assets/photos/photos (1).jpg" data-caption="Caption 1">
-    <img src="assets/photos/photos (1).jpg" alt="Photo 1">
-  </a>
-  <a href="assets/photos/photos (2).jpg" data-caption="Caption 2">
-    <img src="assets/photos/photos (2).jpg" alt="Photo 2">
-  </a>
-  <a href="assets/photos/photos (3).jpg" data-caption="Caption 3">
-  <img src="assets/photos/photos (3).jpg" alt="Photo 3">
-</a>
-<a href="assets/photos/photos (4).jpg" data-caption="Caption 4">
-<img src="assets/photos/photos (4).jpg" alt="Photo 4">
-</a>
-<a href="assets/photos/photos (5).jpg" data-caption="Caption 5">
-<img src="assets/photos/photos (5).jpg" alt="Photo 5">
-</a>
-<a href="assets/photos/photos (6).jpg" data-caption="Caption 6">
-<img src="assets/photos/photos (6).jpg" alt="Photo 6">
-</a>
-<a href="assets/photos/photos (7).jpg" data-caption="Caption 7">
-<img src="assets/photos/photos (7).jpg" alt="Photo 7">
-</a>
-<a href="assets/photos/photos (8).jpg" data-caption="Caption 8">
-<img src="assets/photos/photos (8).jpg" alt="Photo 8">
-</a>
-<a href="assets/photos/photos (9).jpg" data-caption="Caption 9">
-<img src="assets/photos/photos (9).jpg" alt="Photo 9">
-</a>
-<a href="assets/photos/photos (10).jpg" data-caption="Caption 10">
-<img src="assets/photos/photos (10).jpg" alt="Photo 10">
-</a>
-<a href="assets/photos/photos (11).jpg" data-caption="Caption 11">
-<img src="assets/photos/photos (11).jpg" alt="Photo 11">
-</a>
-</a>
-<a href="assets/photos/photos (14).jpg" data-caption="Caption 14">
-<img src="assets/photos/photos (14).jpg" alt="Photo 14">
-</a>
-<a href="assets/photos/photos (15).jpg" data-caption="Caption 15">
-<img src="assets/photos/photos (15).jpg" alt="Photo 15">
-</a>
-<a href="assets/photos/photos (16).jpg" data-caption="Caption 16">
-<img src="assets/photos/photos (16).jpg" alt="Photo 16">
-</a>
-<a href="assets/photos/photos (17).jpg" data-caption="Caption 17">
-<img src="assets/photos/photos (17).jpg" alt="Photo 17">
-</a>
-<a href="assets/photos/photos (18).jpg" data-caption="Caption 18">
-<img src="assets/photos/photos (18).jpg" alt="Photo 18">
-</a>
-<a href="assets/photos/photos (19).jpg" data-caption="Caption 19">
-<img src="assets/photos/photos (19).jpg" alt="Photo 19">
-</a>
-<a href="assets/photos/photos (20).jpg" data-caption="Caption 20">
-<img src="assets/photos/photos (20).jpg" alt="Photo 20">
-</a>
-`;
 
 
 // Initialize BaguetteBox for the photo section
