@@ -42,10 +42,38 @@ ul { list-style: none; }
 
 /* LOGO UPDATE */
 .logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary);
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #0a66c2 0%, #0084b4 50%, #149ddd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     font-family: var(--font-code);
+    letter-spacing: -1px;
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    padding: 5px 12px;
+    border-radius: 6px;
+}
+.logo:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(10, 102, 194, 0.2);
+    background: linear-gradient(135deg, #149ddd 0%, #0084b4 50%, #0a66c2 100%);
+}
+.logo::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #0a66c2, #149ddd);
+    z-index: -1;
+    opacity: 0.1;
+    transition: opacity 0.3s ease;
+}
+.logo:hover::before {
+    opacity: 0.2;
 }
 .nav-menu { display: flex; gap: 30px; align-items: center; }
 .nav-link { font-size: 0.95rem; font-weight: 500; color: var(--text-dark); transition: color 0.3s; }
@@ -104,6 +132,10 @@ ul { list-style: none; }
 footer { background: var(--primary); color: white; padding: 60px 0 30px; }
 .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; }
 .footer-left h2 { margin-bottom: 15px; }
+
+/* Contact Links */
+.contact-link { color: #fff; text-decoration: none; border-bottom: 2px solid transparent; transition: all 0.3s ease; cursor: pointer; }
+.contact-link:hover { color: #c3e8fa; border-bottom-color: #c3e8fa; text-decoration: underline; }
 
 /* Large LinkedIn Button Style */
 .linkedin-btn-large {
