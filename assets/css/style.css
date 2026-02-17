@@ -112,6 +112,10 @@ ul { list-style: none; }
 .company { display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 15px; }
 .timeline-content ul { margin-top: 15px; list-style: disc; padding-left: 20px; color: var(--text-light); }
 
+/* projects list styling */
+.project-list { margin-top: 15px; list-style: disc; padding-left: 20px; color: var(--text-light); }
+.project-list li { margin-bottom: 10px; }
+
 /* --- LINKEDIN TESTIMONIALS (NEW) --- */
 .recommendations-header { text-align: right; margin-bottom: 40px; }
 .btn-view-linkedin { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: #0a66c2; color: white; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: all 0.3s ease; }
