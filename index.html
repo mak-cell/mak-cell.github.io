@@ -1,23 +1,22 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio of MohanKrushna Behera - Embedded Software Engineer experienced in C, FreeRTOS, automotive ECUs, and functional safety">
-    <title>MohanKrushna Behera • Embedded Software Engineer</title>
-    
+    <meta name="description" content="Portfolio of MohanKrushna Behera, an embedded software engineer specializing in automotive ECUs, RTOS platforms, and functional safety.">
+    <title>MohanKrushna Behera | Embedded Software Engineer</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-
     <nav class="navbar">
-        <div class="nav-container">
+        <div class="nav-container container">
             <a href="#" class="logo">MOHANKRUSHNA BEHERA</a>
             <ul class="nav-menu">
                 <li><a href="#about" class="nav-link">About</a></li>
@@ -27,7 +26,7 @@
                 <li><a href="#testimonials" class="nav-link">Recommendations</a></li>
                 <li><a href="#contact" class="btn-primary">Contact</a></li>
             </ul>
-            <div class="hamburger">
+            <div class="hamburger" aria-label="Toggle navigation" aria-expanded="false" role="button" tabindex="0">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -36,20 +35,54 @@
     </nav>
 
     <header class="hero" id="about">
-        <div class="container">
-            <span class="hero-label">Embedded Software Engineer</span>
-            <h1>MohanKrushna Behera</h1>
-            <p class="hero-text">
-                6+ years of experience building embedded applications, automotive ECUs (EPOS) and functional‑safety software. 
-                Deep expertise in <strong>C / Embedded C</strong>, drivers (SPI, I2C, UART, ADC, PWM, GPIO) and ISO 26262.
-                Comfortable with FreeRTOS, FusaRTOS, NXP S32K144, STM32 Cortex‑M4, Arduino, Zigbee and moderate C++.
-            </p>
-            <div class="hero-actions">
-                <a href="#contact" class="btn-primary">Get in Touch</a>
-                <a href="https://drive.google.com/file/d/1J1H6bLH6uPdEHafFQmJMD-6UPfH3X-oP/view?usp=sharing" download class="btn-primary"><i class='bx bx-download'></i> Download Resume</a>
-                <a href="https://github.com/mak-cell" target="_blank" class="btn-secondary"><i class='bx bxl-github'></i> GitHub</a>
-                <a href="https://www.linkedin.com/in/mohankrushna/" target="_blank" class="btn-secondary"><i class='bx bxl-linkedin'></i> LinkedIn</a>
+        <div class="container hero-grid">
+            <div class="hero-main">
+                <span class="hero-label">Embedded Software Engineer</span>
+                <h1>Designing reliable embedded systems for automotive and device platforms.</h1>
+                <p class="hero-text">
+                    MohanKrushna Behera brings 6+ years of experience building embedded applications, automotive ECUs, and functional safety aligned software. His work spans low-level firmware in <strong>C / Embedded C</strong>, hardware interfaces, RTOS integration, and validation workflows for production-grade systems.
+                </p>
+                <div class="hero-highlights">
+                    <span>Automotive ECU Integration</span>
+                    <span>FreeRTOS and FusaRTOS</span>
+                    <span>ISO 26262 and ASPICE</span>
+                </div>
+                <div class="hero-actions">
+                    <a href="#contact" class="btn-primary">Get in Touch</a>
+                    <a href="https://drive.google.com/file/d/1J1H6bLH6uPdEHafFQmJMD-6UPfH3X-oP/view?usp=sharing" download class="btn-secondary"><i class='bx bx-download'></i> Download Resume</a>
+                    <a href="https://github.com/mak-cell" target="_blank" rel="noopener noreferrer" class="btn-secondary"><i class='bx bxl-github'></i> GitHub</a>
+                    <a href="https://www.linkedin.com/in/mohankrushna/" target="_blank" rel="noopener noreferrer" class="btn-secondary"><i class='bx bxl-linkedin'></i> LinkedIn</a>
+                </div>
             </div>
+            <aside class="hero-panel">
+                <p class="hero-panel-label">Profile Snapshot</p>
+                <h2>MohanKrushna Behera</h2>
+                <ul class="hero-stats">
+                    <li>
+                        <strong>6+ Years</strong>
+                        <span>Embedded and platform engineering experience</span>
+                    </li>
+                    <li>
+                        <strong>Core Stack</strong>
+                        <span>C, C++, Python, Linux, and MCU platforms</span>
+                    </li>
+                    <li>
+                        <strong>Domain Focus</strong>
+                        <span>Automotive electronics, firmware validation, and tooling</span>
+                    </li>
+                </ul>
+                <div class="hero-contact-card">
+                    <a href="mailto:mohankrushnabehera@gmail.com" class="hero-contact-link">
+                        <i class='bx bx-envelope'></i>
+                        mohankrushnabehera@gmail.com
+                    </a>
+                    <a href="tel:+917537870782" class="hero-contact-link">
+                        <i class='bx bx-phone'></i>
+                        +91 753 787 0782
+                    </a>
+                    <p class="hero-location"><i class='bx bx-map'></i> Kolkata / Odisha, India</p>
+                </div>
+            </aside>
         </div>
     </header>
 
@@ -62,7 +95,7 @@
             <div class="stack-grid">
                 <div class="stack-card">
                     <div class="icon-box"><i class='bx bx-code-alt'></i></div>
-                    <h3>Languages & Firmware</h3>
+                    <h3>Languages and Firmware</h3>
                     <ul class="stack-list">
                         <li>C / Embedded C (MISRA)</li>
                         <li>C++ (moderate)</li>
@@ -72,17 +105,17 @@
                 </div>
                 <div class="stack-card">
                     <div class="icon-box"><i class='bx bx-chip'></i></div>
-                    <h3>Controllers & RTOS</h3>
+                    <h3>Controllers and RTOS</h3>
                     <ul class="stack-list">
                         <li>NXP S32K144 / S32K</li>
-                        <li>STM32 Cortex‑M4, ARM Cortex‑M, TI AM43x, MSP43x</li>
+                        <li>STM32 Cortex-M4, ARM Cortex-M, TI AM43x, MSP43x</li>
                         <li>FreeRTOS, FusaRTOS, Embedded Linux</li>
                         <li>Arduino, Zigbee modules</li>
                     </ul>
                 </div>
                 <div class="stack-card">
                     <div class="icon-box"><i class='bx bx-network-chart'></i></div>
-                    <h3>Protocols & Tools</h3>
+                    <h3>Protocols and Tools</h3>
                     <ul class="stack-list">
                         <li>SPI, I2C, UART, CAN, LIN, PWM, ADC/GPIO</li>
                         <li>Keil, IAR, J-Link, Segger SystemView</li>
@@ -101,7 +134,6 @@
                 <div class="line"></div>
             </div>
             <div class="timeline">
-                
                 <div class="timeline-item">
                     <div class="timeline-date">Aug 2021 - Present</div>
                     <div class="timeline-content">
@@ -109,10 +141,10 @@
                         <span class="company">Wipro Limited | Kolkata</span>
                         <p>Developing application-level modules for automotive lighting ECUs with emphasis on safety and integration.</p>
                         <ul>
-                            <li>Built and maintained embedded C firmware, interfacing with SPI/I2C/UART drivers, ADC/PWM/GPIO peripherals and RTE layer.</li>
-                            <li>Leading integration testing across modules and ensured MISRA-C and ISO 26262 compliance.</li>
-                            <li>Implemented automation test frameworks and hardware setups using <strong>Python (PyVISA, PySerial)</strong>; earned Wipro Solution Maveric Award for full automation.</li>
-                            <li>Managed requirements in DOORS under ASPICE processes; used C/C++, Python, and DXL scripts to streamline workflows.</li>
+                            <li>Built and maintained embedded C firmware, interfacing with SPI, I2C, UART drivers, ADC, PWM, GPIO peripherals, and the RTE layer.</li>
+                            <li>Led integration testing across modules while ensuring MISRA-C and ISO 26262 compliance.</li>
+                            <li>Implemented automation test frameworks and hardware setups using <strong>Python (PyVISA, PySerial)</strong>; earned the Wipro Solution Maveric Award for a full automation solution.</li>
+                            <li>Managed requirements in DOORS under ASPICE processes; used C, C++, Python, and DXL scripts to streamline workflows.</li>
                         </ul>
                     </div>
                 </div>
@@ -125,8 +157,8 @@
                         <p>Led software design for the "One Nation One Card" handheld device running on TI AM438x Linux.</p>
                         <ul>
                             <li>Created Qt UI components with direct driver access (ioctl, sysfs) for NFC, SAM, display, and keyboard modules.</li>
-                            <li>Refactored C code into modular, object‑oriented C++ improving maintainability and extensibility.</li>
-                            <li>Automated data workflows in Python, parsing and generating JSON/CSV for bulk operations.</li>
+                            <li>Refactored C code into modular, object-oriented C++ to improve maintainability and extensibility.</li>
+                            <li>Automated data workflows in Python, parsing and generating JSON and CSV for bulk operations.</li>
                         </ul>
                     </div>
                 </div>
@@ -134,7 +166,7 @@
                 <div class="timeline-item">
                     <div class="timeline-date">Aug 2019 - Dec 2019</div>
                     <div class="timeline-content">
-                        <h3>CTO & Co-Founder</h3>
+                        <h3>CTO and Co-Founder</h3>
                         <span class="company">Bazarside | Startup</span>
                         <p>Led the technical strategy and development of an e-commerce platform.</p>
                         <ul>
@@ -144,7 +176,6 @@
                         </ul>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -152,16 +183,16 @@
     <section id="projects" class="section bg-light">
         <div class="container">
             <div class="section-header">
-                <h2>Projects & Achievements</h2>
+                <h2>Projects and Achievements</h2>
                 <div class="line"></div>
             </div>
             <ul class="project-list">
-                <li><strong>FreeRTOS Scheduling Demo</strong> – STM32F407G1 with SystemView profiling to visualize timing, CPU usage and task switching (2025).</li>
-                <li><strong>Hybrid Switch</strong> – Arduino + HC-05 Bluetooth controller for hybrid hardware/software switch (Aug 2018 – May 2019).</li>
-                <li><strong>Bazarside</strong> – Django REST e-commerce platform with secure payments (Aug 2017 – Dec 2018).</li>
-                <li><strong>Wipro</strong> Solution Maveric Award for full automation testing solution in automotive project.</li>
-                <li>Completed training in <strong>AUTOSAR, CAN; AWS Generative AI(GEN AI); </strong>certifications in C++, Python, and BEC Vantage Business English.</li>
-                <li>Participant in <strong>Smart India Hackathon 2017.</strong></li>
+                <li><strong>FreeRTOS Scheduling Demo</strong> - STM32F407G1 with SystemView profiling to visualize timing, CPU usage, and task switching (2025).</li>
+                <li><strong>Hybrid Switch</strong> - Arduino and HC-05 Bluetooth controller for a hybrid hardware and software switch (Aug 2018 - May 2019).</li>
+                <li><strong>Bazarside</strong> - Django REST e-commerce platform with secure payments (Aug 2017 - Dec 2018).</li>
+                <li><strong>Wipro</strong> Solution Maveric Award for a full automation testing solution in an automotive project.</li>
+                <li>Completed training in <strong>AUTOSAR, CAN, and AWS Generative AI</strong>, alongside certifications in C++, Python, and BEC Vantage Business English.</li>
+                <li>Participant in <strong>Smart India Hackathon 2017</strong>.</li>
             </ul>
         </div>
     </section>
@@ -173,27 +204,24 @@
                 <div class="line"></div>
                 <p class="subtitle">Endorsements from colleagues on LinkedIn.</p>
             </div>
-            
-            <!-- View Recommendations on LinkedIn -->
+
             <div class="recommendations-header">
-                <a href="https://www.linkedin.com/in/mohankrushna/details/recommendations/?detailScreenTabIndex=0" target="_blank" class="btn-view-linkedin">
+                <a href="https://www.linkedin.com/in/mohankrushna/details/recommendations/?detailScreenTabIndex=0" target="_blank" rel="noopener noreferrer" class="btn-view-linkedin">
                     View it on LinkedIn <i class='bx bxl-linkedin'></i>
                 </a>
             </div>
 
-            <!-- Static recommendations from colleagues -->
             <div class="testimonial-grid">
-                
                 <div class="linkedin-card">
                     <div class="li-header">
                         <div class="li-avatar">SP</div>
                         <div class="li-info">
                             <h4>Sudarsan Puhan</h4>
-                            <span>SE Capgemini & Tech YouTuber</span>
+                            <span>SE Capgemini and Tech YouTuber</span>
                         </div>
                         <i class='bx bxl-linkedin-square li-icon'></i>
                     </div>
-                    <p class="li-text">"As someone who is a creative thinker and possesses a can-do attitude, Mohan is a pleasure to work with. I recommend him highly for an embedded and python developer position for any organization."</p>
+                    <p class="li-text">"As someone who is a creative thinker and possesses a can-do attitude, Mohan is a pleasure to work with. I recommend him highly for an embedded and Python developer position for any organization."</p>
                 </div>
 
                 <div class="linkedin-card">
@@ -212,15 +240,13 @@
                     <div class="li-header">
                         <div class="li-avatar">SS</div>
                         <div class="li-info">
-                            <h4>Shumvil Ahmed Saad PMP®</h4>
-                            <span> AutoSAR Lead</span>
+                            <h4>Shumvil Ahmed Saad PMP</h4>
+                            <span>AutoSAR Lead</span>
                         </div>
                         <i class='bx bxl-linkedin-square li-icon'></i>
                     </div>
-                    <p class="li-text">"Mohan is very focused in his everyday work responsibilities. He brings in new ideas for function implementation and delivers a robust algorithm. He has a strong will to accomplish the given task in the best possible way. I wish you for a bright career ahead!"</p>
+                    <p class="li-text">"Mohan is very focused in his everyday work responsibilities. He brings in new ideas for function implementation and delivers a robust algorithm. He has a strong will to accomplish the given task in the best possible way. I wish you a bright career ahead!"</p>
                 </div>
-
-
             </div>
         </div>
     </section>
@@ -229,12 +255,12 @@
         <div class="container footer-content">
             <div class="footer-left">
                 <h2>Let's Connect</h2>
-                <p>Open to opportunities in Embedded Systems & Automotive Engineering.</p>
-                
-                <a href="https://drive.google.com/file/d/1J1H6bLH6uPdEHafFQmJMD-6UPfH3X-oP/view?usp=sharing" download class="btn-primary" style="margin-right:10px;">
+                <p>Open to opportunities in embedded systems and automotive engineering.</p>
+
+                <a href="https://drive.google.com/file/d/1J1H6bLH6uPdEHafFQmJMD-6UPfH3X-oP/view?usp=sharing" download class="btn-primary footer-action">
                     <i class='bx bx-download'></i> Download Resume
                 </a>
-                <a href="https://www.linkedin.com/in/mohankrushna/" target="_blank" class="linkedin-btn-large">
+                <a href="https://www.linkedin.com/in/mohankrushna/" target="_blank" rel="noopener noreferrer" class="linkedin-btn-large">
                     <i class='bx bxl-linkedin'></i> View LinkedIn Profile
                 </a>
 
