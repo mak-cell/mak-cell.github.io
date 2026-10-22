@@ -66,15 +66,69 @@ textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1p
 .weeks summary .t::after{content:' ▸';color:var(--muted)}
 .weeks details[open] summary .t::after{content:' ▾'}
 .plan{font-weight:400;list-style:none;margin:0 0 10px 56px;padding:0;display:grid;gap:6px}
-.plan li{border:0;display:grid;grid-template-columns:86px minmax(0,1fr) 22px;gap:10px;align-items:baseline;font-size:13.5px}
+.plan li{border:0;display:grid;grid-template-columns:86px minmax(0,1fr) 24px;gap:10px;align-items:baseline;font-size:13.5px}
 .plan .dt{font-family:var(--mono);font-size:12px;color:var(--muted)}
 .plan a{color:var(--ink);text-decoration-color:var(--led);text-underline-offset:3px}
-.plan .ok{color:var(--ok);font-weight:600}
+.plan .ok{display:flex;justify-content:center}
+.tick{width:18px;height:18px;margin:0;accent-color:var(--ok);cursor:pointer}
+.tick:disabled{cursor:default;opacity:.4}
 .weeks li.cur{font-weight:600}
 .weeks li .n{font-family:var(--mono);color:var(--muted)}
 .weeks li.cur .n{color:var(--led)}
 .weeks li .c{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
 .sync{font-size:12px;color:var(--muted)}
+/* Vision board: tiles of the life the plan is for (company, salary, video walkthrough, pictures, words) */
+.vision{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));grid-auto-rows:150px;grid-auto-flow:dense;gap:10px;margin-top:14px}
+.tile{position:relative;border-radius:10px;overflow:hidden;background:var(--cell);border:1px solid var(--line);min-width:0;display:grid}
+.tile.wide{grid-column:span 2}
+.tile img.cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tile .cap{position:absolute;left:0;right:0;bottom:0;padding:22px 10px 8px;background:linear-gradient(transparent,rgba(0,0,0,.72));color:#fff;font-weight:600;font-size:13.5px;line-height:1.3}
+.tile .cap small{display:block;font-weight:400;opacity:.85}
+.t-company{background:var(--panel);place-items:center;text-align:center;padding:12px;align-content:center;gap:6px}
+.t-company .logo{max-width:70%;max-height:56px;object-fit:contain}
+.t-company .mono{width:52px;height:52px;border-radius:12px;display:grid;place-items:center;background:var(--led-soft);color:var(--led);font-family:var(--display);font-weight:700;font-size:22px}
+.t-company b{font-family:var(--display);font-size:16px;line-height:1.2}
+.t-company a{color:var(--ink);text-decoration-color:var(--led);text-underline-offset:3px}
+.t-company small{color:var(--muted);font-size:12.5px;line-height:1.3}
+.t-salary{background:var(--led-soft);border-color:var(--led);padding:14px;align-content:center;gap:6px}
+.t-salary .label{padding-right:40px}
+.t-salary b{font-family:var(--mono);font-weight:500;font-size:clamp(22px,4vw,30px);line-height:1.1;color:var(--led);overflow-wrap:anywhere}
+.t-salary small{color:var(--muted);font-size:12.5px}
+.t-quote{background:var(--ink);color:var(--bg);border-color:var(--ink);padding:16px;align-content:center}
+.t-quote p{margin:0;font-family:var(--display);font-weight:600;font-size:17px;line-height:1.35;text-wrap:balance}
+.t-quote small{opacity:.7;margin-top:6px}
+.t-video{background:#000}
+.t-video .play{position:absolute;inset:0;border:0;padding:0;background:transparent;cursor:pointer;color:inherit;font:inherit}
+.t-video .play::before{content:"";position:absolute;left:50%;top:42%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;background:var(--led);box-shadow:0 4px 18px rgba(0,0,0,.4)}
+.t-video .play::after{content:"";position:absolute;left:50%;top:42%;margin:-10px 0 0 -6px;border-style:solid;border-width:10px 0 10px 17px;border-color:transparent transparent transparent #1b1205}
+.t-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.t-video a.cap{text-decoration:none}
+.tile .vedit{position:absolute;top:6px;right:6px;z-index:2;font:inherit;font-size:12px;padding:3px 9px;border-radius:99px;border:0;background:rgba(0,0,0,.6);color:#fff;cursor:pointer;opacity:0;transition:opacity .15s}
+.tile:hover .vedit,.tile:focus-within .vedit{opacity:1}
+@media (hover:none){.tile .vedit{opacity:1}}
+.tile.add{border:1px dashed var(--muted);background:transparent;color:var(--muted);font:inherit;font-size:13.5px;cursor:pointer;place-items:center;text-align:center;padding:12px}
+.tile.add:hover{color:var(--ink);border-color:var(--led)}
+.tile.add b{display:block;font-size:22px;font-weight:400;color:var(--led)}
+.tile:focus-visible,.tile .play:focus-visible,.tile .vedit:focus-visible{outline:2px solid var(--led);outline-offset:2px}
+.tile:not(.add){transition:transform .2s ease,box-shadow .2s ease}
+.tile:not(.add):hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.14)}
+/* Motivation: dream linked to today's action, if-then plan for the obstacle, reward on completion */
+.why-today{margin:2px 0 0;padding:8px 12px;border-left:3px solid var(--led);background:var(--led-soft);border-radius:0 8px 8px 0;font-size:14px}
+.why-today b{font-weight:600}
+.woop{margin-top:14px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;display:grid;gap:6px}
+.woop p{margin:0;font-size:15px}
+.woop p b{font-weight:600;color:var(--led)}
+.cheer{margin-top:12px;border-radius:8px;padding:10px 12px;background:var(--ok-soft);border:1px solid var(--ok);font-size:14px;font-weight:500}
+@media (prefers-reduced-motion:no-preference){
+  .cheer{animation:rise .35s ease-out}
+  .btn.pop{animation:pop .45s ease-out}
+  .tile{animation:rise .4s ease-out backwards}
+  @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @keyframes pop{40%{transform:scale(1.08)}100%{transform:scale(1)}}
+}
+.vform{display:grid;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.vform .vf{display:grid;gap:4px}
+.vform input:not([type=file]),.vform select{font:inherit;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%}
 @media (max-width:640px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.today{grid-template-columns:1fr}.weeks summary{grid-template-columns:36px minmax(0,1fr) 60px}.weeks summary .bar{display:none}.plan{margin-left:0}.plan li{grid-template-columns:70px minmax(0,1fr) 18px}}
 @media (prefers-reduced-motion:no-preference){.bar i{transition:width .4s ease}}
 </style>
@@ -100,14 +154,45 @@ textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1p
   </header>
 
   <section class="panel">
+    <div class="row" style="justify-content:space-between">
+      <div style="display:grid;gap:2px"><h2>Vision board</h2><span class="sync">The life this plan is for. Look at it before you study.</span></div>
+      <button class="btn small" id="addVision" type="button">Add to board</button>
+    </div>
+    <div class="vision" id="vision"></div>
+    <div class="woop">
+      <div class="row" style="justify-content:space-between"><span class="label">When it gets hard</span><button class="btn small" id="editPlan" type="button">Edit</button></div>
+      <p>If <b id="obsText">I'm tired after work</b>, then I will <b id="actText">open today's link and do just 15 minutes before dinner</b>.</p>
+      <div id="planForm" hidden style="display:grid;gap:8px;margin-top:6px">
+        <label class="label" for="obsInput">What usually stops you?</label><input id="obsInput" autocomplete="off" style="font:inherit;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)">
+        <label class="label" for="actInput">What you'll do instead, in one small step</label><input id="actInput" autocomplete="off" style="font:inherit;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)">
+        <div class="row" style="gap:8px"><button class="btn primary" id="savePlan" type="button">Save plan</button><button class="btn" id="cancelPlan" type="button">Cancel</button></div>
+      </div>
+    </div>
+    <form class="vform" id="vForm" hidden>
+      <div class="vf"><label class="label" for="vType">What is it?</label><select id="vType"></select></div>
+      <div id="vFields" style="display:flex;flex-direction:column;gap:8px">
+        <div class="vf" data-f="title"><label class="label" for="vTitle"></label><input id="vTitle" autocomplete="off"></div>
+        <div class="vf" data-f="sub"><label class="label" for="vSub"></label><input id="vSub" autocomplete="off"></div>
+        <div class="vf" data-f="cur"><label class="label" for="vCur"></label><input id="vCur" autocomplete="off"></div>
+        <div class="vf" data-f="link"><label class="label" for="vLink"></label><input id="vLink" type="url" placeholder="https://"></div>
+        <div class="vf" data-f="img"><label class="label" for="vImg"></label><input id="vImg" type="url" placeholder="Paste an image link">
+          <label class="sync">or upload from this device: <input id="vFile" type="file" accept="image/*"></label><span class="sync" id="vImgNote"></span></div>
+      </div>
+      <div class="row" style="gap:8px"><button class="btn primary" type="submit">Save</button><button class="btn" id="vCancel" type="button">Cancel</button><button class="btn" id="vDelete" type="button" style="margin-left:auto;color:var(--warn)">Remove</button></div>
+    </form>
+  </section>
+
+  <section class="panel">
     <div class="today">
       <div style="display:grid;gap:6px;min-width:0">
         <span class="label" id="todayLabel">Today</span>
         <h1 id="todayTopic">Loading today's topic</h1>
         <div id="todayLink"></div>
+        <p class="why-today" id="whyToday" hidden></p>
       </div>
       <button class="btn primary" id="markToday" type="button">Mark today done</button>
     </div>
+    <div class="cheer" id="cheer" role="status" hidden></div>
     <p class="sync" style="margin:10px 0 0">15 minutes counts as a streak day. Never miss twice.</p>
     <div class="alert" id="nudge" hidden style="margin-top:12px"></div>
   </section>
@@ -116,7 +201,7 @@ textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1p
     <div class="stats">
       <div class="stat"><span class="label">Current streak</span><b id="sCur">0</b><small>days in a row</small></div>
       <div class="stat"><span class="label">Best streak</span><b id="sBest">0</b><small>days</small></div>
-      <div class="stat"><span class="label">Days studied</span><b id="sTotal">0</b><small>since 19 Oct</small></div>
+      <div class="stat"><span class="label">Days you showed up</span><b id="sTotal">0</b><small>each one a vote for the engineer you're becoming</small></div>
       <div class="stat"><span class="label">Countdown</span><b id="sLeft">0</b><small>days to 25 Apr 2027</small></div>
     </div>
     <div style="margin-top:16px;display:grid;gap:6px">
@@ -180,6 +265,10 @@ function render(){
   if(r){ $("todayTopic").textContent=r[2]; $("todayLink").innerHTML = r[3] ? '<a target="_blank" rel="noopener"></a>' : ""; if(r[3]){const a=$("todayLink").firstChild;a.href=r[3];a.textContent="Open today's reading";} }
   else if(w===0){ $("todayTopic").textContent="Warm-up: pointers part 2, struct padding, bit ops"; $("todayLink").innerHTML='<span class="sync">Ask Claude in the Career Coach thread for today\'s 15-minute task.</span>'; }
   else { $("todayTopic").textContent = (today.getDay()===6?"Saturday build: ":"Sunday teach-back: ") + (WEEKS[w]||"review"); $("todayLink").innerHTML='<span class="sync">Weekend block. Even 15 minutes keeps the streak.</span>'; }
+  // tie today's small task to one dream from the board, a different one each day
+  const dream = dreamOfDay(), wt = $("whyToday");
+  wt.hidden = !dream; wt.textContent = "";
+  if(dream){ wt.appendChild(el("b","","Why today matters: ")); wt.appendChild(document.createTextNode(dream.type==="quote" ? "“"+dream.title+"”" : "15 minutes closer to "+dreamText(dream)+".")); }
   const isDone = done.has(todayIso);
   $("markToday").textContent = isDone ? "Done today ✓" : "Mark today done";
   $("markToday").className = "btn " + (isDone ? "done" : "primary");
@@ -233,7 +322,11 @@ function render(){
       if(r&&r[3]){ const a=document.createElement("a"); a.href=r[3]; a.target="_blank"; a.rel="noopener"; a.textContent=r[2]; tp.appendChild(a); }
       else if(r) tp.textContent=r[2];
       else tp.textContent = k===5 ? (i===0?"Build: pointer and bit-ops exercises in C":"Build: this week's hands-on task (10:00 to 13:00)") : k===6 ? "Teach-back: explain the week to Claude, 5 interview questions" : "Review";
-      row.children[2].textContent=done.has(key)?"✓":"";
+      const cb=document.createElement("input"); cb.type="checkbox"; cb.className="tick"; cb.checked=done.has(key);
+      cb.disabled = d>today; cb.title = d>today ? "Can't mark a future day" : (cb.checked?"Mark not done":"Mark done");
+      cb.setAttribute("aria-label",row.children[0].textContent+" done");
+      cb.onchange=()=>toggle(key);
+      row.children[2].appendChild(cb);
       plan.appendChild(row);
     }
     det.appendChild(plan); li.appendChild(det); ul.appendChild(li);
@@ -272,9 +365,165 @@ async function pull(){
     if(g&&g.value) $("goalText").textContent=g.value;
     if(w) $("goalWhy").textContent = w.value ? "Why: "+w.value : "";
     LS.set("sdv.goal",{text:$("goalText").textContent,why:w?w.value:""});
+    // vision tiles live as one row each ("vision:<id>"); tiles made offline are pushed up
+    const vs = rows.filter(r=>r.key.startsWith("vision:")).map(r=>{ try{ return JSON.parse(r.value); }catch(e){ return null; } }).filter(Boolean);
+    const ids = new Set(vs.map(v=>v.id)), pend = vision.filter(v=>v.p && !ids.has(v.id));
+    const next = [...vs,...pend].sort((a,b)=>a.id<b.id?-1:1);
+    if(JSON.stringify(next)!==JSON.stringify(vision)){ vision=next; persistVision(); renderVision(); }
+    pend.forEach(pushVision);
+    const ob = rows.find(r=>r.key==="obstacle"), it = rows.find(r=>r.key==="ifthen");
+    if(ob&&ob.value&&it&&it.value){ showPlan(ob.value,it.value); LS.set("sdv.plan",{obs:ob.value,act:it.value}); }
     render(); setSync("Synced with Google Sheet");
   }catch(e){ setSync("Couldn't reach the Google Sheet. Showing this browser's copy."); }
 }
+
+// ---- vision board ----
+const VTYPES = {
+  company:{name:"Dream company", f:{title:"Company name", sub:"The role you want there", img:"Logo (optional)", link:"Careers page (optional)"}},
+  salary: {name:"Target salary", f:{title:"Target, e.g. ₹40 LPA", cur:"Where you are now, e.g. ₹16 LPA (optional)"}},
+  video:  {name:"Video walkthrough", f:{link:"YouTube link: office tour, day in the life, the car you'll build", title:"Caption (optional)"}},
+  image:  {name:"Picture", f:{img:"Picture: the office, the city, the car, the home", title:"Caption (optional)"}},
+  quote:  {name:"Words to live by", f:{title:"Affirmation or quote", sub:"Who said it (optional)"}}
+};
+let vision = LS.get("sdv.vision",[]);
+let vEditing = null, vImgData = "";
+function persistVision(){ LS.set("sdv.vision",vision); }
+const safeUrl = u => /^https?:\/\//i.test(u||"") ? u : "";
+const safeImg = u => /^(https?:\/\/|data:image\/)/i.test(u||"") ? u : "";
+function ytId(u){ const m=(u||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/))([\w-]{11})/); return m?m[1]:""; }
+const num = s => { const m=String(s||"").replace(/,/g,"").match(/\d+(\.\d+)?/); return m?parseFloat(m[0]):NaN; };
+function el(tag,cls,text){ const e=document.createElement(tag); if(cls) e.className=cls; if(text) e.textContent=text; return e; }
+
+function tileEl(v){
+  const t=el("div","tile t-"+v.type);
+  if(v.type==="image"){
+    if(safeImg(v.img)){ const im=el("img","cover"); im.src=v.img; im.alt=v.title||"Vision picture"; im.loading="lazy"; t.appendChild(im); }
+    if(v.title) t.appendChild(el("div","cap",v.title));
+  } else if(v.type==="company"){
+    if(safeImg(v.img)){ const im=el("img","logo"); im.src=v.img; im.alt=""; t.appendChild(im); }
+    else t.appendChild(el("span","mono",(v.title||"?").trim().slice(0,1).toUpperCase()));
+    const b=el("b"); if(safeUrl(v.link)){ const a=el("a","",v.title); a.href=v.link; a.target="_blank"; a.rel="noopener"; b.appendChild(a); } else b.textContent=v.title;
+    t.appendChild(b); if(v.sub) t.appendChild(el("small","",v.sub));
+  } else if(v.type==="salary"){
+    t.appendChild(el("span","label","Target salary")); t.appendChild(el("b","",v.title));
+    const c=num(v.cur), g=num(v.title);
+    if(v.cur){
+      if(c>0&&g>0){ const bar=el("div","bar"), i=el("i"); i.style.width=Math.min(100,c/g*100)+"%"; bar.appendChild(i); t.appendChild(bar); }
+      t.appendChild(el("small","", c>=g ? "Reached from "+v.cur+". Raise the bar." : "Now "+v.cur+(c>0&&g>0?" · "+(g/c).toFixed(1)+"× to go":"")));
+    }
+  } else if(v.type==="video"){
+    t.classList.add("wide");
+    const id=ytId(v.link);
+    if(id){
+      const im=el("img","cover"); im.src="https://i.ytimg.com/vi/"+id+"/hqdefault.jpg"; im.alt=""; im.loading="lazy"; t.appendChild(im);
+      const p=el("button","play"); p.type="button"; p.setAttribute("aria-label","Play "+(v.title||"video"));
+      if(v.title) p.appendChild(el("span","cap",v.title));
+      p.onclick=()=>{ const f=el("iframe"); f.src="https://www.youtube-nocookie.com/embed/"+id+"?autoplay=1&rel=0"; f.title=v.title||"Video"; f.allow="autoplay; encrypted-media; picture-in-picture; fullscreen"; f.allowFullscreen=true; im.remove(); p.replaceWith(f); };
+      t.appendChild(p);
+    } else if(safeUrl(v.link)){ const a=el("a","cap",(v.title||"Watch")+" ↗"); a.href=v.link; a.target="_blank"; a.rel="noopener"; t.appendChild(a); }
+  } else if(v.type==="quote"){
+    t.classList.add("wide"); t.appendChild(el("p","",v.title)); if(v.sub) t.appendChild(el("small","","— "+v.sub));
+  }
+  const e=el("button","vedit","Edit"); e.type="button"; e.setAttribute("aria-label","Edit "+(v.title||VTYPES[v.type].name)); e.onclick=()=>openVision(v.type,v);
+  t.appendChild(e);
+  return t;
+}
+
+function renderVision(){
+  const box=$("vision"); box.innerHTML="";
+  vision.filter(v=>VTYPES[v.type]).forEach(v=>box.appendChild(tileEl(v)));
+  // nudge tiles for the three anchors that are still missing
+  ["company","salary","video"].filter(k=>!vision.some(v=>v.type===k)).forEach(k=>{
+    const b=el("button","tile add"+(k==="video"?" wide":"")); b.type="button";
+    b.appendChild(el("b","","+")); b.appendChild(document.createTextNode("Add your "+VTYPES[k].name.toLowerCase()));
+    b.onclick=()=>openVision(k); box.appendChild(b);
+  });
+}
+
+function dreamOfDay(){
+  const pool = vision.filter(v=>v.title && v.type!=="video");
+  return pool.length ? pool[Math.floor(today/DAY) % pool.length] : null;
+}
+function dreamText(v){ return v.type==="company" && v.sub ? v.sub+" at "+v.title : v.title; }
+
+// reward right after the action: streak count, milestone, and the dream it moves you toward
+const MILESTONES = {3:"Three days. The hardest part, starting, is behind you.", 7:"A full week. This is where a habit starts to hold.", 14:"Two weeks straight. You're not trying anymore, you're doing.", 21:"21 days. This is part of who you are now.", 30:"30 days. Most people never get here.", 50:"50 days. Interviewers will hear this in how you answer.", 100:"100 days. Remarkable."};
+let cheerTimer = 0;
+function cheer(){
+  const s = streaks().cur, d = dreamOfDay();
+  $("cheer").textContent = "Day "+s+" in a row, done. " + (MILESTONES[s] || (d && d.type!=="quote" ? "You just moved closer to "+dreamText(d)+"." : "That's one more vote for the engineer you're becoming."));
+  $("cheer").hidden = false;
+  $("markToday").classList.add("pop");
+  clearTimeout(cheerTimer); cheerTimer = setTimeout(()=>{ $("cheer").hidden=true; }, 8000);
+}
+
+function setVType(k){
+  const f=VTYPES[k].f, keys=Object.keys(f);
+  document.querySelectorAll("#vFields .vf").forEach(row=>{
+    const name=row.dataset.f; row.hidden=!f[name]; row.style.order=keys.indexOf(name);
+    if(f[name]) row.querySelector(".label").textContent=f[name];
+  });
+}
+function openVision(type,v){
+  vEditing=v||null; vImgData=v?v.img||"":"";
+  $("vType").value=type; $("vType").disabled=!!v; setVType(type);
+  $("vTitle").value=v?v.title||"":""; $("vSub").value=v?v.sub||"":""; $("vCur").value=v?v.cur||"":""; $("vLink").value=v?v.link||"":"";
+  $("vImg").value=/^https?:/i.test(vImgData)?vImgData:""; $("vFile").value=""; $("vImgNote").textContent=vImgData.startsWith("data:")?"Uploaded picture kept.":"";
+  $("vDelete").hidden=!v; $("vForm").hidden=false;
+  $("vForm").scrollIntoView({block:"nearest",behavior:"smooth"});
+  $("vForm").querySelector("#vFields .vf:not([hidden]) input").focus({preventScroll:true});
+}
+// shrink an upload to a JPEG small enough for one Google Sheet cell (50k chars)
+function shrink(file){
+  return new Promise((res,rej)=>{
+    const im=new Image();
+    im.onload=()=>{
+      let s=Math.min(1,640/Math.max(im.width,im.height)), q=.8, out;
+      const c=document.createElement("canvas"), x=c.getContext("2d");
+      do{
+        c.width=Math.round(im.width*s); c.height=Math.round(im.height*s);
+        x.fillStyle="#fff"; x.fillRect(0,0,c.width,c.height); x.drawImage(im,0,0,c.width,c.height);
+        out=c.toDataURL("image/jpeg",q); q-=.15; if(q<.4){ s*=.75; q=.7; }
+      } while(out.length>40000);
+      URL.revokeObjectURL(im.src); res(out);
+    };
+    im.onerror=rej; im.src=URL.createObjectURL(file);
+  });
+}
+async function pushVision(v){
+  if(!cfg.url) return;
+  try{ const {p,...data}=v; await sheetPut("vision:"+v.id, JSON.stringify(data)); delete v.p; persistVision(); }
+  catch(e){ setSync("Vision board saved here, but not in the Google Sheet yet."); }
+}
+
+Object.entries(VTYPES).forEach(([k,t])=>$("vType").appendChild(Object.assign(document.createElement("option"),{value:k,textContent:t.name})));
+$("vType").onchange=()=>setVType($("vType").value);
+$("addVision").onclick=()=>openVision("image");
+$("vCancel").onclick=()=>{ $("vForm").hidden=true; };
+$("vImg").oninput=()=>{ vImgData=$("vImg").value.trim(); $("vImgNote").textContent=""; };
+$("vFile").onchange=async()=>{
+  const f=$("vFile").files[0]; if(!f) return;
+  $("vImgNote").textContent="Preparing picture…";
+  try{ vImgData=await shrink(f); $("vImg").value=""; $("vImgNote").textContent="Picture ready."; }
+  catch(e){ $("vImgNote").textContent="Couldn't read that file. Try a JPG or PNG."; }
+};
+$("vForm").onsubmit=e=>{
+  e.preventDefault();
+  const type=$("vType").value, first=$("vFields").querySelector(".vf[data-f='"+Object.keys(VTYPES[type].f)[0]+"'] input");
+  const v={ id:vEditing?vEditing.id:"v"+Date.now().toString(36), type, title:$("vTitle").value.trim(), p:1 };
+  const f=VTYPES[type].f;
+  if(f.sub) v.sub=$("vSub").value.trim(); if(f.cur) v.cur=$("vCur").value.trim();
+  if(f.link) v.link=safeUrl($("vLink").value.trim()); if(f.img) v.img=safeImg(vImgData);
+  const need = {company:v.title, salary:v.title, quote:v.title, video:v.link, image:v.img}[type];
+  if(!need){ (first||$("vTitle")).focus(); $("vImgNote").textContent = type==="image"?"Add a picture link or upload one.":""; return; }
+  vision = vEditing ? vision.map(x=>x.id===v.id?v:x) : [...vision,v];
+  persistVision(); renderVision(); render(); $("vForm").hidden=true; pushVision(v);
+};
+$("vDelete").onclick=async()=>{
+  if(!vEditing) return;
+  const id=vEditing.id; vision=vision.filter(x=>x.id!==id); persistVision(); renderVision(); render(); $("vForm").hidden=true;
+  try{ await sheetPut("vision:"+id,""); }catch(e){ setSync("Removed here, but the Google Sheet still has it."); }
+};
 
 async function toggle(k){
   const was=done.has(k);
@@ -283,7 +532,18 @@ async function toggle(k){
   catch(e){ setSync(e.message==="wrong token" ? "Sheet refused the change: check the secret word in Settings." : "Saved here, but the Google Sheet didn't update. It will be fixed on the next change."); }
 }
 
-$("markToday").onclick=()=>toggle(todayIso);
+$("markToday").onclick=()=>{ const was=done.has(todayIso); toggle(todayIso); if(!was) cheer(); else $("cheer").hidden=true; };
+$("markToday").onanimationend=()=>$("markToday").classList.remove("pop");
+// if-then plan for the obstacle (implementation intention)
+function showPlan(o,a){ $("obsText").textContent=o; $("actText").textContent=a; }
+const savedPlan = LS.get("sdv.plan",null); if(savedPlan) showPlan(savedPlan.obs,savedPlan.act);
+$("editPlan").onclick=()=>{ $("obsInput").value=$("obsText").textContent; $("actInput").value=$("actText").textContent; $("planForm").hidden=false; $("obsInput").focus(); };
+$("cancelPlan").onclick=()=>{ $("planForm").hidden=true; };
+$("savePlan").onclick=async()=>{
+  const o=$("obsInput").value.trim().replace(/\.$/,""), a=$("actInput").value.trim().replace(/\.$/,""); if(!o||!a) return;
+  showPlan(o,a); LS.set("sdv.plan",{obs:o,act:a}); $("planForm").hidden=true;
+  try{ await sheetPut("obstacle",o); await sheetPut("ifthen",a); }catch(e){ setSync("Plan saved here, but not in the Google Sheet."); }
+};
 $("editGoal").onclick=()=>{ $("goalInput").value=$("goalText").textContent; $("whyInput").value=$("goalWhy").textContent.replace(/^Why:\s*/,""); $("goalForm").hidden=false; };
 $("cancelGoal").onclick=()=>{$("goalForm").hidden=true;};
 $("saveGoal").onclick=async()=>{
@@ -297,7 +557,11 @@ $("saveCfg").onclick=()=>{ cfg={url:$("cfgUrl").value.trim(),token:$("cfgToken")
 
 if(savedGoal){ $("goalText").textContent=savedGoal.text; $("goalWhy").textContent=savedGoal.why?"Why: "+savedGoal.why:""; }
 render();
+renderVision();
 pull();
+// keep every open copy (phone, browser, startup window) in step with the sheet
+window.addEventListener('focus',()=>{ if(cfg.url) pull(); });
+setInterval(()=>{ if(cfg.url && document.visibilityState==='visible') pull(); }, 5*60*1000);
 </script>
 
 </body>
