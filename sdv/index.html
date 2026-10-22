@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SDV Goal Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@600;700&display=swap">
+<style>
+/* Layout: one column of instrument panels, like an ECU test bench: goal strip, today, streak gauges, 27-week grid, week list */
+:root{
+  --bg:#eef1f6; --panel:#ffffff; --ink:#18202e; --muted:#5d6779; --line:#d6dce6;
+  --led:#d97a06; --led-soft:#fbe7cc; --ok:#1f8a5b; --ok-soft:#d5efe2; --warn:#b4322a; --cell:#e3e8f0;
+  --display:"Sora",system-ui,sans-serif; --body:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1520; --panel:#172031; --ink:#e7ecf4; --muted:#93a0b5; --line:#26324a;
+  --led:#f5a524; --led-soft:#3a2b12; --ok:#3ccf8e; --ok-soft:#123326; --warn:#ff7b70; --cell:#212c40; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1520; --panel:#172031; --ink:#e7ecf4; --muted:#93a0b5; --line:#26324a;
+  --led:#f5a524; --led-soft:#3a2b12; --ok:#3ccf8e; --ok-soft:#123326; --warn:#ff7b70; --cell:#212c40; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:980px;margin:0 auto;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:16px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;min-width:0}
+.label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-size:clamp(22px,4vw,30px);line-height:1.15;margin:4px 0 0;text-wrap:balance}
+h2{font-family:var(--display);font-size:17px;margin:0}
+.goal{display:grid;gap:10px;border-left:4px solid var(--led)}
+.goal-text{font-family:var(--display);font-size:clamp(18px,3vw,24px);line-height:1.3;font-weight:600;margin:0;text-wrap:balance}
+.goal-why{color:var(--muted);margin:0}
+.row{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.btn{font:inherit;font-weight:600;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:9px 14px;cursor:pointer}
+.btn:focus-visible,.cell:focus-visible,textarea:focus-visible{outline:2px solid var(--led);outline-offset:2px}
+.btn.primary{background:var(--led);border-color:var(--led);color:#1b1205}
+.btn.done{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.btn.small{padding:5px 10px;font-size:13px;font-weight:500}
+textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;min-height:84px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stat{display:grid;gap:2px}
+.stat b{font-family:var(--mono);font-size:28px;font-weight:500;font-variant-numeric:tabular-nums}
+.stat small{color:var(--muted)}
+.bar{height:8px;background:var(--cell);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--led)}
+.today{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center}
+.today a{color:var(--ink);font-weight:600;text-decoration-color:var(--led);text-underline-offset:3px}
+.alert{border-radius:8px;padding:10px 12px;background:var(--led-soft);color:var(--ink);font-size:14px}
+.alert.bad{border:1px solid var(--warn)}
+.grid-scroll{overflow-x:auto}
+.heat{display:grid;grid-template-columns:auto repeat(27,18px);gap:4px;align-items:center;width:max-content}
+.heat .d{font-family:var(--mono);font-size:10px;color:var(--muted);padding-right:4px}
+.heat .m{font-family:var(--mono);font-size:10px;color:var(--muted);height:14px;white-space:nowrap}
+.cell{width:18px;height:18px;border-radius:4px;background:var(--cell);border:0;padding:0;cursor:pointer}
+.cell.on{background:var(--ok)}
+.cell.today{box-shadow:0 0 0 2px var(--led)}
+.cell.future{opacity:.45;cursor:default}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:10px}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.weeks{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.weeks li{display:grid;grid-template-columns:44px minmax(0,1fr) 90px 60px;gap:12px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.weeks li.cur{font-weight:600}
+.weeks li .n{font-family:var(--mono);color:var(--muted)}
+.weeks li.cur .n{color:var(--led)}
+.weeks li .c{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+.sync{font-size:12px;color:var(--muted)}
+@media (max-width:640px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.today{grid-template-columns:1fr}.weeks li{grid-template-columns:36px minmax(0,1fr) 60px}.weeks li .bar{display:none}}
+@media (prefers-reduced-motion:no-preference){.bar i{transition:width .4s ease}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="panel goal">
+    <div class="row" style="justify-content:space-between">
+      <span class="label">Ultimate goal &middot; SDV / AUTOSAR / automotive Linux</span>
+      <button class="btn small" id="editGoal" type="button">Edit goal</button>
+    </div>
+    <p class="goal-text" id="goalText">By April 2027, answer SDV, AUTOSAR and automotive Linux interviews from deep understanding, not memory.</p>
+    <p class="goal-why" id="goalWhy">Why: 7 years of experience deserves real confidence and a better role.</p>
+    <div id="goalForm" hidden>
+      <label class="label" for="goalInput">Your goal, in your own words</label>
+      <textarea id="goalInput"></textarea>
+      <label class="label" for="whyInput">Why it matters to you</label>
+      <textarea id="whyInput" style="min-height:60px"></textarea>
+      <div class="row" style="margin-top:8px"><button class="btn primary" id="saveGoal" type="button">Save goal</button><button class="btn" id="cancelGoal" type="button">Cancel</button></div>
+    </div>
+  </header>
+
+  <section class="panel">
+    <div class="today">
+      <div style="display:grid;gap:6px;min-width:0">
+        <span class="label" id="todayLabel">Today</span>
+        <h1 id="todayTopic">Loading today's topic</h1>
+        <div id="todayLink"></div>
+      </div>
+      <button class="btn primary" id="markToday" type="button">Mark today done</button>
+    </div>
+    <p class="sync" style="margin:10px 0 0">15 minutes counts as a streak day. Never miss twice.</p>
+    <div class="alert" id="nudge" hidden style="margin-top:12px"></div>
+  </section>
+
+  <section class="panel">
+    <div class="stats">
+      <div class="stat"><span class="label">Current streak</span><b id="sCur">0</b><small>days in a row</small></div>
+      <div class="stat"><span class="label">Best streak</span><b id="sBest">0</b><small>days</small></div>
+      <div class="stat"><span class="label">Days studied</span><b id="sTotal">0</b><small>since 19 Oct</small></div>
+      <div class="stat"><span class="label">Countdown</span><b id="sLeft">0</b><small>days to 25 Apr 2027</small></div>
+    </div>
+    <div style="margin-top:16px;display:grid;gap:6px">
+      <div class="row" style="justify-content:space-between"><span class="label" id="weekLabel">Plan progress</span><span class="label" id="pctLabel">0%</span></div>
+      <div class="bar"><i id="pctBar" style="width:0%"></i></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="row" style="justify-content:space-between;margin-bottom:12px"><h2>Every day, 19 Oct to 25 Apr</h2><span class="sync" id="sync">Connecting&hellip;</span></div>
+    <div class="grid-scroll"><div class="heat" id="heat"></div></div>
+    <div class="legend"><span><i style="background:var(--ok)"></i>Studied</span><span><i style="background:var(--cell)"></i>Not yet</span><span><i style="box-shadow:0 0 0 2px var(--led);background:var(--cell)"></i>Today</span><span>Tap a past day to fix it.</span></div>
+  </section>
+
+  <section class="panel">
+    <h2 style="margin-bottom:10px">26 weeks</h2>
+    <ul class="weeks" id="weeks"></ul>
+  </section>
+  <section class="panel">
+    <div class="row" style="justify-content:space-between"><h2>Google Sheet sync</h2><button class="btn small" id="openSettings" type="button">Settings</button></div>
+    <div id="settings" hidden style="display:grid;gap:8px;margin-top:12px">
+      <label class="label" for="cfgUrl">Apps Script web app URL</label>
+      <input id="cfgUrl" type="url" placeholder="https://script.google.com/macros/s/…/exec" style="font:inherit;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)">
+      <label class="label" for="cfgToken">Secret word (same as TOKEN in the script)</label>
+      <input id="cfgToken" type="password" style="font:inherit;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)">
+      <div class="row"><button class="btn primary" id="saveCfg" type="button">Save and sync</button></div>
+    </div>
+  </section>
+</div>
+
+<script>
+const READING = [["2026-10-26", 1, "Memory layout: .text, .data, .bss, heap, stack", "https://en.wikipedia.org/wiki/Data_segment"], ["2026-10-27", 1, "Storage duration, linkage and static", "https://en.cppreference.com/w/c/language/storage_duration"], ["2026-10-28", 1, "volatile: what it does and what it does not guarantee", "https://en.cppreference.com/w/c/language/volatile"], ["2026-10-29", 1, "Undefined behaviour in C (why compilers break your code)", "https://en.cppreference.com/w/c/language/behavior"], ["2026-10-30", 1, "Struct padding, alignment and endianness", "https://en.wikipedia.org/wiki/Data_structure_alignment"], ["2026-11-02", 2, "Cortex-M4 programmer's model: registers, MSP/PSP, modes (ch. 2)", "https://developer.arm.com/documentation/dui0553/latest/"], ["2026-11-03", 2, "Cortex-M4 memory model and memory map (ch. 2)", "https://developer.arm.com/documentation/dui0553/latest/"], ["2026-11-04", 2, "Exception model and the vector table (ch. 2)", "https://developer.arm.com/documentation/dui0553/latest/"], ["2026-11-05", 2, "Startup code: what runs before main() (find the startup-code lesson)", "https://www.state-machine.com/video-course"], ["2026-11-06", 2, "GNU linker scripts: MEMORY and SECTIONS", "https://sourceware.org/binutils/docs/ld/Scripts.html"], ["2026-11-09", 3, "NVIC: priorities, preemption, sub-priority (ch. 4, NVIC)", "https://developer.arm.com/documentation/dui0553/latest/"], ["2026-11-10", 3, "Interrupt latency and tail-chaining", "https://en.wikipedia.org/wiki/Interrupt_latency"], ["2026-11-11", 3, "Race conditions and critical sections (find the race-condition lesson)", "https://www.state-machine.com/video-course"], ["2026-11-12", 3, "DMA concepts", "https://en.wikipedia.org/wiki/Direct_memory_access"], ["2026-11-13", 3, "STM32F446 manual: interrupts (NVIC/EXTI) and DMA chapters", "https://www.st.com/resource/en/reference_manual/rm0390-stm32f446xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf"], ["2026-11-16", 4, "STM32F446 manual: general-purpose timers chapter", "https://www.st.com/resource/en/reference_manual/rm0390-stm32f446xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf"], ["2026-11-17", 4, "Watchdog timers and SysTick", "https://en.wikipedia.org/wiki/Watchdog_timer"], ["2026-11-18", 4, "GDB manual: breakpoints, watchpoints, examining memory", "https://sourceware.org/gdb/documentation/"], ["2026-11-19", 4, "OpenOCD user guide: connecting to an ST-Link target", "https://openocd.org/doc/html/index.html"], ["2026-11-20", 4, "UART framing (what you'll see on the logic analyzer)", "https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter"], ["2026-11-23", 5, "What makes an OS real-time", "https://en.wikipedia.org/wiki/Real-time_operating_system"], ["2026-11-24", 5, "FreeRTOS book: Task Management chapter", "https://github.com/FreeRTOS/FreeRTOS-Kernel-Book"], ["2026-11-25", 5, "Context switching (then read xPortPendSVHandler in port.c)", "https://en.wikipedia.org/wiki/Context_switch"], ["2026-11-26", 5, "FreeRTOS port.c for Cortex-M4F: PendSV and SVC handlers", "https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/GCC/ARM_CM4F/port.c"], ["2026-11-27", 5, "FreeRTOS book: Queue Management chapter", "https://github.com/FreeRTOS/FreeRTOS-Kernel-Book"], ["2026-11-30", 6, "Semaphores vs mutexes", "https://en.wikipedia.org/wiki/Semaphore_(programming)"], ["2026-12-01", 6, "Priority inversion (Mars Pathfinder case)", "https://en.wikipedia.org/wiki/Priority_inversion"], ["2026-12-02", 6, "Priority inheritance vs priority ceiling", "https://en.wikipedia.org/wiki/Priority_ceiling_protocol"], ["2026-12-03", 6, "OSEK OS: basic/extended tasks, events, alarms", "https://en.wikipedia.org/wiki/OSEK"], ["2026-12-04", 6, "AUTOSAR OS SWS: resources, OS-Applications, timing protection (search SWS_OS)", "https://www.autosar.org/standards/classic-platform"], ["2026-12-07", 7, "CAN frame format and arbitration", "https://en.wikipedia.org/wiki/CAN_bus"], ["2026-12-08", 7, "CAN bit timing and sample point (CAN module)", "https://elearning.vector.com/"], ["2026-12-09", 7, "CAN error handling: error counters, error passive, bus-off", "https://en.wikipedia.org/wiki/CAN_bus"], ["2026-12-10", 7, "CAN FD: what changes and why", "https://en.wikipedia.org/wiki/CAN_FD"], ["2026-12-11", 7, "AUTOSAR CanIf, CanSM, CanNm SWS (search each name)", "https://www.autosar.org/standards/classic-platform"], ["2026-12-14", 8, "AUTOSAR layered architecture overview", "https://en.wikipedia.org/wiki/AUTOSAR"], ["2026-12-15", 8, "RTE, SWCs, ports and runnables (search 'Layered Software Architecture')", "https://www.autosar.org/standards/classic-platform"], ["2026-12-16", 8, "AUTOSAR COM SWS: signals, I-PDUs, transfer properties", "https://www.autosar.org/standards/classic-platform"], ["2026-12-17", 8, "AUTOSAR PduR SWS: routing paths", "https://www.autosar.org/standards/classic-platform"], ["2026-12-18", 8, "EcuM, BswM and ComM SWS: startup and communication modes", "https://www.autosar.org/standards/classic-platform"], ["2026-12-21", 9, "ISO-TP framing: single, first, consecutive and flow-control frames", "https://en.wikipedia.org/wiki/ISO_15765-2"], ["2026-12-22", 9, "UDS overview: services and sessions", "https://en.wikipedia.org/wiki/Unified_Diagnostic_Services"], ["2026-12-23", 9, "UDS negative response codes and P2/P2* timing (UDS module)", "https://elearning.vector.com/"], ["2026-12-24", 9, "python-can: buses, sending and receiving", "https://python-can.readthedocs.io/"], ["2026-12-25", 9, "can-isotp for Python: testing your ISO-TP layer", "https://can-isotp.readthedocs.io/"], ["2026-12-28", 10, "udsoncan: client basics, 0x22 ReadDataByIdentifier and 0x2E WriteDataByIdentifier", "https://udsoncan.readthedocs.io/"], ["2026-12-29", 10, "0x27 SecurityAccess: seed and key", "https://en.wikipedia.org/wiki/Unified_Diagnostic_Services"], ["2026-12-30", 10, "udsoncan: 0x31 RoutineControl and 0x11 ECUReset", "https://udsoncan.readthedocs.io/"], ["2026-12-31", 10, "0x19 ReadDTCInformation, 0x14 ClearDTC and the DTC status byte", "https://en.wikipedia.org/wiki/Unified_Diagnostic_Services"], ["2027-01-01", 10, "AUTOSAR DEM SWS: debouncing, operation cycles, aging (search SWS_DEM)", "https://www.autosar.org/standards/classic-platform"], ["2027-01-04", 11, "STM32F446 manual: embedded flash, sectors, erase and program", "https://www.st.com/resource/en/reference_manual/rm0390-stm32f446xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf"], ["2027-01-05", 11, "UDS reprogramming: 0x34 RequestDownload, 0x36 TransferData, 0x37 Exit", "https://en.wikipedia.org/wiki/Unified_Diagnostic_Services"], ["2027-01-06", 11, "CRC: how it works and choosing a polynomial", "https://en.wikipedia.org/wiki/Cyclic_redundancy_check"], ["2027-01-07", 11, "Jumping to the application: VTOR and the System Control Block (ch. 4)", "https://developer.arm.com/documentation/dui0553/latest/"], ["2027-01-08", 11, "AUTOSAR NvM SWS: blocks, CRC, write strategies (search SWS_NVRAMManager)", "https://www.autosar.org/standards/classic-platform"], ["2027-01-11", 12, "ISO 26262 overview: parts and the safety lifecycle", "https://en.wikipedia.org/wiki/ISO_26262"], ["2027-01-12", 12, "HARA and ASIL determination (severity, exposure, controllability)", "https://en.wikipedia.org/wiki/Automotive_Safety_Integrity_Level"], ["2027-01-13", 12, "AUTOSAR E2E protection library: profiles, counters, CRC (search E2E)", "https://www.autosar.org/standards/classic-platform"], ["2027-01-14", 12, "MISRA C: why the rules exist", "https://en.wikipedia.org/wiki/MISRA_C"], ["2027-01-15", 12, "Automotive SPICE: SWE.1 to SWE.6", "https://en.wikipedia.org/wiki/Automotive_SPICE"], ["2027-01-18", 13, "Processes: fork, exec, wait", "https://man7.org/linux/man-pages/man2/fork.2.html"], ["2027-01-19", 13, "POSIX threads", "https://man7.org/linux/man-pages/man7/pthreads.7.html"], ["2027-01-20", 13, "Signals: delivery, masks, safe handlers", "https://man7.org/linux/man-pages/man7/signal.7.html"], ["2027-01-21", 13, "IPC: POSIX message queues (then man7/shm_overview.7)", "https://man7.org/linux/man-pages/man7/mq_overview.7.html"], ["2027-01-22", 13, "Linux scheduling policies: SCHED_FIFO, SCHED_RR, SCHED_OTHER", "https://man7.org/linux/man-pages/man7/sched.7.html"], ["2027-01-25", 14, "Linux boot process: firmware, bootloader, kernel, init", "https://en.wikipedia.org/wiki/Booting_process_of_Linux"], ["2027-01-26", 14, "U-Boot documentation: boot flow and environment", "https://docs.u-boot-project.org/en/latest/"], ["2027-01-27", 14, "Device tree usage model", "https://docs.kernel.org/devicetree/usage-model.html"], ["2027-01-28", 14, "Yocto Project quick build", "https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html"], ["2027-01-29", 14, "Bootlin Yocto training slides: layers, recipes, images", "https://bootlin.com/docs/"], ["2027-02-01", 15, "LFD103: first modules (free course)", "https://training.linuxfoundation.org/training/a-beginners-guide-to-linux-kernel-development-lfd103/"], ["2027-02-02", 15, "Loadable kernel modules", "https://en.wikipedia.org/wiki/Loadable_kernel_module"], ["2027-02-03", 15, "Bootlin kernel training slides: character drivers", "https://bootlin.com/docs/"], ["2027-02-04", 15, "Kernel interrupt handling: request_irq and flow handlers", "https://docs.kernel.org/core-api/genericirq.html"], ["2027-02-05", 15, "ftrace: tracing the kernel", "https://docs.kernel.org/trace/ftrace.html"], ["2027-02-08", 16, "SocketCAN: the Linux CAN API", "https://docs.kernel.org/networking/can.html"], ["2027-02-09", 16, "can-utils: candump, cansend, cangen", "https://github.com/linux-can/can-utils"], ["2027-02-10", 16, "PREEMPT_RT: what real-time Linux changes", "https://wiki.linuxfoundation.org/realtime/start"], ["2027-02-11", 16, "RT group scheduling and RT throttling", "https://docs.kernel.org/scheduler/sched-rt-group.html"], ["2027-02-12", 16, "Review: Linux latency sources (re-read sched man page, RT sections)", "https://man7.org/linux/man-pages/man7/sched.7.html"], ["2027-02-15", 17, "RAII", "https://en.cppreference.com/w/cpp/language/raii"], ["2027-02-16", 17, "std::unique_ptr", "https://en.cppreference.com/w/cpp/memory/unique_ptr"], ["2027-02-17", 17, "std::shared_ptr and weak_ptr", "https://en.cppreference.com/w/cpp/memory/shared_ptr"], ["2027-02-18", 17, "Move constructors and move semantics", "https://en.cppreference.com/w/cpp/language/move_constructor"], ["2027-02-19", 17, "constexpr and templates", "https://en.cppreference.com/w/cpp/language/constexpr"], ["2027-02-22", 18, "std::thread", "https://en.cppreference.com/w/cpp/thread/thread"], ["2027-02-23", 18, "std::mutex and lock_guard", "https://en.cppreference.com/w/cpp/thread/mutex"], ["2027-02-24", 18, "std::condition_variable", "https://en.cppreference.com/w/cpp/thread/condition_variable"], ["2027-02-25", 18, "std::atomic", "https://en.cppreference.com/w/cpp/atomic/atomic"], ["2027-02-26", 18, "Memory ordering: relaxed, acquire, release, seq_cst", "https://en.cppreference.com/w/cpp/atomic/memory_order"], ["2027-03-01", 19, "Adaptive Platform overview: why it exists, Classic vs Adaptive", "https://www.autosar.org/standards/adaptive-platform"], ["2027-03-02", 19, "ara::com: proxies, skeletons, service discovery (search 'Explanation of ara::com API')", "https://www.autosar.org/standards/adaptive-platform"], ["2027-03-03", 19, "Execution Management and State Management (search the SWS documents)", "https://www.autosar.org/standards/adaptive-platform"], ["2027-03-04", 19, "Persistency and Update & Configuration Management (UCM)", "https://www.autosar.org/standards/adaptive-platform"], ["2027-03-05", 19, "Eclipse S-CORE: open-source safety-critical SDV core", "https://eclipse-score.github.io/"], ["2027-03-08", 20, "SOME/IP protocol: header, methods, events, fields (search PRS_SOMEIPProtocol)", "https://www.autosar.org/standards/adaptive-platform"], ["2027-03-09", 20, "SOME/IP Service Discovery (search PRS_SOMEIPServiceDiscoveryProtocol)", "https://www.autosar.org/standards/adaptive-platform"], ["2027-03-10", 20, "vsomeip: user guide and examples", "https://github.com/COVESA/vsomeip/wiki"], ["2027-03-11", 20, "DoIP and diagnostics over Ethernet", "https://en.wikipedia.org/wiki/Unified_Diagnostic_Services"], ["2027-03-12", 20, "DDS: publish/subscribe for vehicles", "https://en.wikipedia.org/wiki/Data_Distribution_Service"], ["2027-03-15", 21, "ISO/SAE 21434 scope and work products", "https://www.iso.org/standard/70918.html"], ["2027-03-16", 21, "Car Hacker's Handbook ch. 1: threat models (TARA thinking)", "http://opengarages.org/handbook/"], ["2027-03-17", 21, "CMAC: the MAC used by SecOC", "https://en.wikipedia.org/wiki/One-key_MAC"], ["2027-03-18", 21, "Hardware security modules and secure boot", "https://en.wikipedia.org/wiki/Hardware_security_module"], ["2027-03-19", 21, "Car Hacker's Handbook: CAN bus attacks chapter", "http://opengarages.org/handbook/"], ["2027-03-22", 22, "OTA updates overview", "https://en.wikipedia.org/wiki/Over-the-air_update"], ["2027-03-23", 22, "RAUC: A/B slots, bundles, rollback", "https://rauc.readthedocs.io/"], ["2027-03-24", 22, "SWUpdate: alternative update framework", "https://swupdate.org/"], ["2027-03-25", 22, "UCM in Adaptive AUTOSAR (search SWS_UpdateAndConfigManagement)", "https://www.autosar.org/standards/adaptive-platform"], ["2027-03-26", 22, "RAUC: signing bundles and keyrings", "https://rauc.readthedocs.io/"], ["2027-03-29", 23, "Catch-up: re-read your weakest Month 1-2 note", ""], ["2027-03-30", 23, "Catch-up: re-read your weakest Month 3 note", ""], ["2027-03-31", 23, "Catch-up: re-read your weakest Month 4 note", ""], ["2027-04-01", 23, "Catch-up: re-read your weakest Month 5 note", ""], ["2027-04-02", 23, "Catch-up: redo the 20-question self-check", ""], ["2027-04-05", 24, "Eclipse SDV: what a software-defined vehicle stack looks like", "https://eclipsesdv.org/"], ["2027-04-06", 24, "Zonal architecture and central compute (Eclipse SDV projects overview)", "https://eclipsesdv.org/"], ["2027-04-07", 24, "System design practice: design OTA for a car (use RAUC concepts)", "https://rauc.readthedocs.io/"], ["2027-04-08", 24, "COVESA Vehicle Signal Specification", "https://covesa.github.io/vehicle_signal_specification/"], ["2027-04-09", 24, "Eclipse Kuksa: vehicle data broker", "https://eclipse.dev/kuksa/"], ["2027-04-12", 25, "STAR method for interview answers", "https://en.wikipedia.org/wiki/Situation,_task,_action,_result"], ["2027-04-13", 25, "Write STAR story 1: hardest bug at Wipro", ""], ["2027-04-14", 25, "Write STAR story 2: a design trade-off", ""], ["2027-04-15", 25, "Write STAR story 3: CDAC POS/NCMC project", ""], ["2027-04-16", 25, "Mock interview prep: revise C/MCU notes", ""], ["2027-04-19", 26, "Interview revision: C and Cortex-M notes", ""], ["2027-04-20", 26, "Interview revision: AUTOSAR Classic notes", ""], ["2027-04-21", 26, "Interview revision: Linux notes", ""], ["2027-04-22", 26, "Interview revision: Adaptive/SOME-IP notes", ""], ["2027-04-23", 26, "Interview revision: safety and security notes", ""]];
+const WEEKS = ["Warm-up: finish week 1 topics","C in depth","Cortex-M startup + linker","Interrupts, NVIC, DMA","Timers + GDB debugging","RTOS internals","RTOS sync + AUTOSAR OS","CAN / CAN-FD deep dive","AUTOSAR COM stack","ISO-TP + UDS basics","UDS services + DCM/DEM","CAN bootloader (part 1)","ISO 26262 + bootloader part 2","Linux system programming","Linux boot + Yocto","Kernel modules + char driver","SocketCAN gateway","Modern C++","C++ concurrency","Adaptive AUTOSAR","SOME/IP + vsomeip","Automotive security","OTA updates","Catch-up week","System design + capstone write-up","Interview prep + mock interviews","Apply + review interviews"];
+const START = new Date(2026,9,19); // Mon 19 Oct (warm-up week = week 0)
+const END = new Date(2027,3,25);
+const DAY = 86400000;
+const iso = d => d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const today = new Date(); today.setHours(0,0,0,0);
+const todayIso = iso(today);
+const reading = Object.fromEntries(READING.map(r=>[r[0],r]));
+let done = new Set();
+let db = null;
+const $ = id => document.getElementById(id);
+
+function weekOf(d){ return Math.floor((d-START)/DAY/7); }
+
+function streaks(){
+  let cur=0, d=new Date(today);
+  if(!done.has(iso(d))) d=new Date(d-DAY);
+  while(done.has(iso(d))){cur++; d=new Date(d-DAY);}
+  let best=0,run=0;
+  for(let t=new Date(START);t<=today;t=new Date(+t+DAY)){ if(done.has(iso(t))){run++;best=Math.max(best,run);} else run=0; }
+  return {cur,best};
+}
+
+function render(){
+  const w = weekOf(today);
+  const r = reading[todayIso];
+  $("todayLabel").textContent = today.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"short"}) + (w>=0&&w<=26 ? " · week "+w : "");
+  if(r){ $("todayTopic").textContent=r[2]; $("todayLink").innerHTML = r[3] ? '<a target="_blank" rel="noopener"></a>' : ""; if(r[3]){const a=$("todayLink").firstChild;a.href=r[3];a.textContent="Open today's reading";} }
+  else if(w===0){ $("todayTopic").textContent="Warm-up: pointers part 2, struct padding, bit ops"; $("todayLink").innerHTML='<span class="sync">Ask Claude in the Career Coach thread for today\'s 15-minute task.</span>'; }
+  else { $("todayTopic").textContent = (today.getDay()===6?"Saturday build: ":"Sunday teach-back: ") + (WEEKS[w]||"review"); $("todayLink").innerHTML='<span class="sync">Weekend block. Even 15 minutes keeps the streak.</span>'; }
+  const isDone = done.has(todayIso);
+  $("markToday").textContent = isDone ? "Done today ✓" : "Mark today done";
+  $("markToday").className = "btn " + (isDone ? "done" : "primary");
+
+  const s = streaks();
+  $("sCur").textContent=s.cur; $("sBest").textContent=s.best; $("sTotal").textContent=done.size;
+  $("sLeft").textContent=Math.max(0,Math.round((END-today)/DAY));
+  const pct = Math.min(100,Math.max(0,Math.round((today-START)/(END-START)*100)));
+  $("pctBar").style.width=pct+"%"; $("pctLabel").textContent=pct+"% of the plan's time";
+  $("weekLabel").textContent = w<0 ? "Starts 19 Oct" : w>26 ? "Plan complete" : "Week "+w+" of 26 · "+WEEKS[w];
+
+  const y1 = iso(new Date(today-DAY)), y2 = iso(new Date(today-2*DAY));
+  const nudge=$("nudge");
+  if(!isDone && !done.has(y1) && today-START>=DAY){ nudge.hidden=false; nudge.className="alert bad"; nudge.textContent = done.has(y2)||done.size===0 ? "You missed yesterday. Today is the day that matters: do 15 minutes and the habit stays alive." : "Two days missed. Do the smallest possible thing now: open today's link for 15 minutes."; }
+  else if(!isDone){ nudge.hidden=false; nudge.className="alert"; nudge.textContent = s.cur ? "Keep the "+s.cur+"-day streak going: 15 minutes is enough." : "Start a streak today."; }
+  else nudge.hidden=true;
+
+  const heat=$("heat"); heat.innerHTML="";
+  heat.appendChild(Object.assign(document.createElement("span"),{className:"d"}));
+  for(let c=0;c<27;c++){ const ws=new Date(+START+c*7*DAY); const m=document.createElement("span"); m.className="m"; m.textContent = (c===0||ws.getDate()<=7) ? ws.toLocaleDateString(undefined,{month:"short"}) : ""; heat.appendChild(m); }
+  ["Mon","","Wed","","Fri","","Sun"].forEach((lbl,row)=>{
+    heat.appendChild(Object.assign(document.createElement("span"),{className:"d",textContent:lbl}));
+    for(let c=0;c<27;c++){
+      const d=new Date(+START+(c*7+row)*DAY), k=iso(d);
+      const b=document.createElement("button"); b.type="button"; b.className="cell"+(done.has(k)?" on":"")+(k===todayIso?" today":"")+(d>today?" future":"");
+      b.title=d.toDateString()+(reading[k]?": "+reading[k][2]:""); b.setAttribute("aria-label",b.title+(done.has(k)?", studied":", not studied"));
+      if(d<=today) b.onclick=()=>toggle(k); else b.disabled=true;
+      heat.appendChild(b);
+    }
+  });
+
+  const ul=$("weeks"); ul.innerHTML="";
+  WEEKS.forEach((t,i)=>{
+    let n=0; for(let k=0;k<7;k++) if(done.has(iso(new Date(+START+(i*7+k)*DAY)))) n++;
+    const li=document.createElement("li"); if(i===w) li.className="cur";
+    const ws=new Date(+START+i*7*DAY);
+    li.innerHTML='<span class="n"></span><span></span><span class="bar"><i></i></span><span class="c"></span>';
+    li.children[0].textContent = i===0?"W0":"W"+i; li.children[1].textContent=t+" · "+ws.toLocaleDateString(undefined,{day:"numeric",month:"short"});
+    li.children[2].firstChild.style.width=(n/7*100)+"%"; li.children[3].textContent=n+"/7 days";
+    ul.appendChild(li);
+  });
+}
+
+// ---- storage: this browser (localStorage) + optional Google Sheet via Apps Script ----
+const LS = {
+  get(k,d){ try{ const v=localStorage.getItem(k); return v===null?d:JSON.parse(v); }catch(e){ return d; } },
+  set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+};
+let cfg = LS.get("sdv.cfg",{url:"",token:""});
+done = new Set(LS.get("sdv.days",[]));
+const savedGoal = LS.get("sdv.goal",null);
+function persist(){ LS.set("sdv.days",[...done]); }
+function setSync(t){ $("sync").textContent=t; }
+
+async function sheetGet(){
+  const r = await fetch(cfg.url,{redirect:"follow"});
+  return (await r.json()).rows || [];
+}
+async function sheetPut(key,value){
+  if(!cfg.url) return;
+  const r = await fetch(cfg.url,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({token:cfg.token,key,value})});
+  const j = await r.json();
+  if(j.error) throw new Error(j.error);
+}
+async function pull(){
+  if(!cfg.url){ setSync("Saved in this browser only. Connect your Google Sheet in Settings."); return; }
+  setSync("Syncing with Google Sheet…");
+  try{
+    const rows = await sheetGet();
+    const days = rows.filter(r=>/^\d{4}-\d{2}-\d{2}$/.test(r.key) && r.value && r.value!=="0").map(r=>r.key);
+    done = new Set(days); persist();
+    const g = rows.find(r=>r.key==="goal"), w = rows.find(r=>r.key==="why");
+    if(g&&g.value) $("goalText").textContent=g.value;
+    if(w) $("goalWhy").textContent = w.value ? "Why: "+w.value : "";
+    LS.set("sdv.goal",{text:$("goalText").textContent,why:w?w.value:""});
+    render(); setSync("Synced with Google Sheet");
+  }catch(e){ setSync("Couldn't reach the Google Sheet. Showing this browser's copy."); }
+}
+
+async function toggle(k){
+  const was=done.has(k);
+  was?done.delete(k):done.add(k); persist(); render();
+  try{ await sheetPut(k, was ? "" : "1"); if(cfg.url) setSync("Synced with Google Sheet"); }
+  catch(e){ setSync(e.message==="wrong token" ? "Sheet refused the change: check the secret word in Settings." : "Saved here, but the Google Sheet didn't update. It will be fixed on the next change."); }
+}
+
+$("markToday").onclick=()=>toggle(todayIso);
+$("editGoal").onclick=()=>{ $("goalInput").value=$("goalText").textContent; $("whyInput").value=$("goalWhy").textContent.replace(/^Why:\s*/,""); $("goalForm").hidden=false; };
+$("cancelGoal").onclick=()=>{$("goalForm").hidden=true;};
+$("saveGoal").onclick=async()=>{
+  const g=$("goalInput").value.trim(), why=$("whyInput").value.trim(); if(!g) return;
+  $("goalText").textContent=g; $("goalWhy").textContent= why?"Why: "+why:""; $("goalForm").hidden=true;
+  LS.set("sdv.goal",{text:g,why});
+  try{ await sheetPut("goal",g); await sheetPut("why",why); }catch(e){ setSync("Goal saved here, but not in the Google Sheet."); }
+};
+$("openSettings").onclick=()=>{ $("cfgUrl").value=cfg.url; $("cfgToken").value=cfg.token; $("settings").hidden=!$("settings").hidden; };
+$("saveCfg").onclick=()=>{ cfg={url:$("cfgUrl").value.trim(),token:$("cfgToken").value.trim()}; LS.set("sdv.cfg",cfg); $("settings").hidden=true; pull(); };
+
+if(savedGoal){ $("goalText").textContent=savedGoal.text; $("goalWhy").textContent=savedGoal.why?"Why: "+savedGoal.why:""; }
+render();
+pull();
+</script>
+
+</body>
+</html>
