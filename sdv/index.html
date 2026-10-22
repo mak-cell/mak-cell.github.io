@@ -281,6 +281,8 @@ function render(){
   $("weekLabel").textContent = w<0 ? "Starts 19 Oct" : w>26 ? "Plan complete" : "Week "+w+" of 26 · "+WEEKS[w];
 
   const y1 = iso(new Date(today-DAY)), y2 = iso(new Date(today-2*DAY));
+  // Android app: hand today's status to the evening reminder
+  if(window.SDVApp){ try{ SDVApp.status(todayIso, isDone, s.cur, done.has(y1), $("todayTopic").textContent, cfg.url||""); }catch(e){} }
   const nudge=$("nudge");
   if(!isDone && !done.has(y1) && today-START>=DAY){ nudge.hidden=false; nudge.className="alert bad"; nudge.textContent = done.has(y2)||done.size===0 ? "You missed yesterday. Today is the day that matters: do 15 minutes and the habit stays alive." : "Two days missed. Do the smallest possible thing now: open today's link for 15 minutes."; }
   else if(!isDone){ nudge.hidden=false; nudge.className="alert"; nudge.textContent = s.cur ? "Keep the "+s.cur+"-day streak going: 15 minutes is enough." : "Start a streak today."; }
