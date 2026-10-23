@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mak-cell.github.io/ai-budget-manager/sitemap.xml

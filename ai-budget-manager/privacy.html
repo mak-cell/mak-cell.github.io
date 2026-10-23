@@ -1,111 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en-IN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HinduMania Privacy Policy</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f7f7f7;
-      color: #333;
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    }
-
-    h1 {
-      color: #ff6600;
-      text-align: center;
-    }
-
-    h2 {
-      color: #138808;
-      margin-top: 25px;
-    }
-
-    p {
-      margin: 10px 0;
-    }
-
-    ul {
-      margin-left: 20px;
-    }
-
-    footer {
-      margin-top: 30px;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-    }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy – Money: Split, Khata &amp; Budget</title>
+  <meta name="description" content="How Money: Split, Khata & Budget handles your data: records stay on your phone, SMS is parsed on the device, ads are non-personalised, Premium has no ads.">
+  <link rel="canonical" href="https://mak-cell.github.io/ai-budget-manager/privacy.html">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <div class="container">
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="./"><img src="assets/icon-192.png" alt="" width="36" height="36">Money</a>
+    </div>
+  </header>
+  <main class="doc">
     <h1>Privacy Policy</h1>
-    <p>Last updated: April 2026</p>
+    <p class="updated">Effective 21 October 2026 · applies to the Android app "Money: Split, Khata &amp; Budget" (package com.makcell.money), published by mak-cell.</p>
 
-    <p>HinduMania (“we”, “our”, or “us”) respects your privacy. This Privacy Policy explains how we collect, use, and protect your information when you use our mobile application.</p>
-
-    <h2>1. Information We Collect</h2>
-    <p>We may collect the following types of information:</p>
+    <h2>The short version</h2>
     <ul>
-      <li>Device information (model, OS version)</li>
-      <li>App usage data</li>
-      <li>Crash logs and diagnostics</li>
+      <li>Your financial records (transactions, accounts, budgets, Baki Khata, personal groups, detected messages) are stored only on your phone. We do not receive them.</li>
+      <li>There is no sign-up or login. The only exception is a group you choose to <strong>share with friends</strong>: that one group (its name, people, expenses and edit history) is stored on Google Firebase so your friends can see it. Nothing else leaves your phone, and groups marked "Just me" are never uploaded.</li>
+      <li>SMS and notification detection are optional, run on the phone, and the text is never uploaded.</li>
+      <li>The free version shows non-personalised ads from Google AdMob. To serve them, Google receives device information described below. Premium removes ads and ad requests entirely.</li>
     </ul>
 
-    <h2>2. How We Use Information</h2>
+    <h2>Data stored on your device</h2>
+    <p>Everything you enter or approve is saved in the app's private storage on your phone: amounts, dates, notes, payees, categories, accounts, card limits and due dates, budgets, goals, people in Baki Khata and their phone numbers if you add them, group members, and the original text of messages you saved as transactions. Android cloud backup is turned off for this app. Backups are made only when you choose "Back up now", and you decide where the file goes.</p>
+
+    <h2>AI mode (optional, off by default)</h2>
+    <p>The assistant (typing or voice) and tidy-up work on your phone without AI mode. If you turn AI mode on and enter your own Google Gemini API key, the app sends to Google's Gemini API, using your key: the sentence you typed or spoke to the assistant together with your category names, account names and today's date; or, for tidy-up, your payee names. Amounts are sent only when they are part of the sentence you wrote. Balances, transaction history, SMS and notification text, contacts and groups are never sent. Google processes these requests under the terms of your API key. The key is stored only on your phone. Instead of your own key you can use <strong>AI coins</strong>, earned by watching a rewarded ad: then the same text goes to Google Gemini through our Firebase server, which passes it on and does not store it; the server keeps only your coin balance and daily usage, linked to the app's anonymous sign-in ID. When you watch a rewarded ad, Google AdMob tells our server that the reward was earned for that ID. Voice entry uses Android's speech recogniser (for example Google voice typing), which turns speech into text under its own terms; the app does not record audio.</p>
+
+    <h2>Shared groups (optional)</h2>
+    <p>Groups of the type "Split with friends" or "Estimate pool" are synced between the phones of the people in them. This is off unless you create such a group or join one with a code. Groups of the type "Just me" stay on your phone only.</p>
     <ul>
-      <li>To improve app performance</li>
-      <li>To fix bugs and crashes</li>
-      <li>To enhance user experience</li>
+      <li><strong>Sign-in:</strong> when you first share or join a group the app silently creates an anonymous account with Firebase Authentication (Google). It is a random ID. No email, phone number or password is asked for.</li>
+      <li><strong>What is uploaded, for that group only:</strong> the group's name, icon and type; member names; each expense, settlement and scheduled spend in the group (amount, description, date, category name, who paid and how it is split); the history of who added, edited or deleted each expense and when; and the display name you choose, which friends see next to your changes.</li>
+      <li><strong>What is never uploaded:</strong> your personal transactions, accounts, budgets, Baki Khata, SMS and notification text, or your contacts.</li>
+      <li><strong>Where and who can see it:</strong> the data is stored in Google Cloud Firestore and is readable only by people who joined the group. Anyone who has the group's current invite link or join code can join, so share it only with people you trust. The person who shared the group can reset the code (old links stop working at once), pause new joins, and remove anyone's access. The invite link carries the code after a "#", which browsers do not send to our website. Names and amounts you add become visible to every member.</li>
+      <li><strong>Push notifications:</strong> to tell your friends when you add or change an expense, the app stores a Firebase Cloud Messaging token for your phone, and Google delivers a short message such as "Anna added Dinner (₹1,200)". Google also processes identifiers such as your Firebase installation ID and IP address to run these services, under <a href="https://firebase.google.com/support/privacy">Firebase's privacy information</a>.</li>
+      <li><strong>Deleting shared data:</strong> archiving or deleting a group on your phone does not remove the copy stored for your friends. To have a shared group's online data deleted, contact us (see below) with the join code. Clearing the app's data removes your anonymous account link from your phone.</li>
     </ul>
 
-    <h2>3. Permissions</h2>
-    <p>Our app may request certain permissions such as:</p>
+    <h2>SMS (READ_SMS permission, optional)</h2>
+    <p>If you turn on SMS detection, the app reads messages from bank, card, UPI and other business senders to find transactions (amount, account number ending, merchant, date). Messages from personal phone numbers are skipped. Parsing happens on the phone. Detected items wait for your review, and you can clear stored message text at any time. SMS content is never sent off the device, sold or shared, and is not used for advertising.</p>
+
+    <h2>Notification access (optional)</h2>
+    <p>If you allow notification access, the app looks at payment notifications (for example from UPI apps) and keeps only those that mention an amount; all others are discarded immediately. They are handled the same way as SMS: on the device, for your review only.</p>
+
+    <h2>Contacts</h2>
+    <p>The app does not read your contact list. When you choose "Pick from contacts", Android shares only the one contact you select (name and phone number), which is saved in Baki Khata or a group.</p>
+
+    <h2>Other permissions</h2>
     <ul>
-      <li>Internet access (to load content)</li>
-      <li>Storage (to cache data for offline use)</li>
+      <li><strong>Notifications and start-up:</strong> to show bill, EMI and review reminders that you switch on, scheduled on the phone.</li>
+      <li><strong>Biometric:</strong> for the optional app lock. Fingerprint or face data stays with Android; the app only learns whether unlocking succeeded.</li>
+      <li><strong>Internet and advertising ID:</strong> used by Google's ads, billing and Firebase libraries (see the sections on advertising, Premium and shared groups). Apart from a group you share, the app does not send your records anywhere.</li>
+      <li><strong>App updates:</strong> the app asks Google Play whether a newer version is available and can download it in the background.</li>
     </ul>
 
-    <h2>4. Third-Party Services</h2>
-    <p>We may use third-party services such as:</p>
-    <ul>
-      <li>Google Play Services</li>
-      <li>Firebase Analytics</li>
-      <li>Crash reporting tools</li>
-    </ul>
+    <h2>Advertising (free version)</h2>
+    <p>The free version uses Google AdMob to show banner ads, a small ad in Settings and, at most once a day after you have used the app on two days in a row, a full-screen ad. Ads load only while the phone is online and are requested as non-personalised. To deliver, measure and protect against fraud, Google may collect device information such as the advertising ID, IP address, device model, operating system version and ad interactions. This happens under <a href="https://policies.google.com/privacy">Google's Privacy Policy</a>; see also <a href="https://policies.google.com/technologies/partner-sites">how Google uses information from apps that use its services</a>. You can reset or delete your advertising ID in Android settings. Where the law requires it (for example in the EEA and UK), you are asked for consent first.</p>
 
-    <h2>5. Data Security</h2>
-    <p>We implement reasonable measures to protect your data, but no method is 100% secure.</p>
+    <h2>Premium (Google Play Billing)</h2>
+    <p>Premium is a yearly subscription bought through Google Play. Google handles the payment; we never see your card, UPI or bank details. The app only receives confirmation that the subscription is active. With Premium the app makes no ad requests.</p>
 
-    <h2>6. Children's Privacy</h2>
-    <p>Our app does not knowingly collect personal data from children under 13.</p>
+    <h2>Sharing and selling</h2>
+    <p>We do not sell, rent or share your personal or financial data. Data leaves your phone only when you share it yourself (exports, reports, backups, invite messages), when you sync a shared group with the people in it, or as described under Advertising and Premium.</p>
 
-    <h2>7. Changes to This Policy</h2>
-    <p>We may update this policy from time to time. Changes will be reflected on this page.</p>
+    <h2>Retention and deletion</h2>
+    <p>Your data stays on your phone until you delete it. Settings → Reset data erases it (with or without your accounts), and uninstalling the app or clearing its storage removes everything on the phone. Backup files you created are under your control. Data of a shared group is kept online while the group exists; see "Shared groups" for how to have it deleted.</p>
 
-    <h2>8. Contact Us</h2>
-    <p>If you have any questions, contact us at:</p>
-    <p><strong>Email:</strong> support@hindumania.com</p>
+    <h2>Security</h2>
+    <p>Data is kept in the app's private storage, which other apps cannot read. You can add an app lock. Keep your backup files somewhere safe.</p>
 
-    <footer>
-      © 2026 HinduMania. All rights reserved.
-    </footer>
-  </div>
+    <h2>Children</h2>
+    <p>The app is meant for adults managing their own money and is not directed at children under 13.</p>
+
+    <h2>Changes</h2>
+    <p>If this policy changes, the new version will be posted on this page with a new effective date.</p>
+
+    <h2>Contact</h2>
+    <p>Questions or requests: <a href="https://github.com/mak-cell/ai-budget-manager/issues">open an issue on GitHub</a>.</p>
+  </main>
+  <footer>
+    <div class="wrap">
+      <div><a href="./">Home</a><a href="terms.html">Terms</a></div>
+      <div>© 2026 mak-cell</div>
+    </div>
+  </footer>
 </body>
 </html>

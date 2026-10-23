@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Join a group – Money: Split, Khata &amp; Budget</title>
+  <meta name="description" content="You were invited to a shared group in Money: Split, Khata & Budget.">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .join { max-width: 32rem; margin: 2rem auto; text-align: center; }
+    .code { font-size: 2rem; font-weight: 700; letter-spacing: .3em; margin: 1rem 0; word-break: break-all; }
+    .join .cta { display: inline-block; margin: .4rem; }
+    .muted { opacity: .75; font-size: .95rem; }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="./"><img src="assets/icon-192.png" alt="" width="36" height="36">Money</a>
+    </div>
+  </header>
+  <main class="doc join">
+    <h1>You're invited to a group</h1>
+    <p>Open the invite in the Money app to see the group and join it.</p>
+    <div class="code" id="code">—</div>
+    <p>
+      <a class="cta" id="open" href="#">Open in Money</a>
+      <a class="cta" href="https://play.google.com/store/apps/details?id=com.makcell.money">▶ Get it on Google Play</a>
+    </p>
+    <p class="muted">Already installed but the button does nothing? Open Money → Groups → Join a group and type the code above.</p>
+    <p class="muted">The code stays in your browser: it is after the “#” in the link, which is never sent to this website.</p>
+  </main>
+  <script>
+    (function () {
+      var code = (location.hash || '').replace(/^#/, '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+      var ok = code.length >= 6 && code.length <= 10;
+      document.getElementById('code').textContent = ok ? code : 'No code in this link';
+      var open = document.getElementById('open');
+      if (ok) {
+        open.href = 'moneysplit://join/' + code;
+      } else {
+        open.style.display = 'none';
+      }
+    })();
+  </script>
+</body>
+</html>

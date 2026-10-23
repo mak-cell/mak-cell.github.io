@@ -77,60 +77,9 @@ textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1p
 .weeks li.cur .n{color:var(--led)}
 .weeks li .c{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
 .sync{font-size:12px;color:var(--muted)}
-/* Vision board: tiles of the life the plan is for (company, salary, video walkthrough, pictures, words) */
-.vision{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));grid-auto-rows:150px;grid-auto-flow:dense;gap:10px;margin-top:14px}
-.tile{position:relative;border-radius:10px;overflow:hidden;background:var(--cell);border:1px solid var(--line);min-width:0;display:grid}
-.tile.wide{grid-column:span 2}
-.tile img.cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.tile .cap{position:absolute;left:0;right:0;bottom:0;padding:22px 10px 8px;background:linear-gradient(transparent,rgba(0,0,0,.72));color:#fff;font-weight:600;font-size:13.5px;line-height:1.3}
-.tile .cap small{display:block;font-weight:400;opacity:.85}
-.t-company{background:var(--panel);place-items:center;text-align:center;padding:12px;align-content:center;gap:6px}
-.t-company .logo{max-width:70%;max-height:56px;object-fit:contain}
-.t-company .mono{width:52px;height:52px;border-radius:12px;display:grid;place-items:center;background:var(--led-soft);color:var(--led);font-family:var(--display);font-weight:700;font-size:22px}
-.t-company b{font-family:var(--display);font-size:16px;line-height:1.2}
-.t-company a{color:var(--ink);text-decoration-color:var(--led);text-underline-offset:3px}
-.t-company small{color:var(--muted);font-size:12.5px;line-height:1.3}
-.t-salary{background:var(--led-soft);border-color:var(--led);padding:14px;align-content:center;gap:6px}
-.t-salary .label{padding-right:40px}
-.t-salary b{font-family:var(--mono);font-weight:500;font-size:clamp(22px,4vw,30px);line-height:1.1;color:var(--led);overflow-wrap:anywhere}
-.t-salary small{color:var(--muted);font-size:12.5px}
-.t-quote{background:var(--ink);color:var(--bg);border-color:var(--ink);padding:16px;align-content:center}
-.t-quote p{margin:0;font-family:var(--display);font-weight:600;font-size:17px;line-height:1.35;text-wrap:balance}
-.t-quote small{opacity:.7;margin-top:6px}
-.t-video{background:#000}
-.t-video .play{position:absolute;inset:0;border:0;padding:0;background:transparent;cursor:pointer;color:inherit;font:inherit}
-.t-video .play::before{content:"";position:absolute;left:50%;top:42%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;background:var(--led);box-shadow:0 4px 18px rgba(0,0,0,.4)}
-.t-video .play::after{content:"";position:absolute;left:50%;top:42%;margin:-10px 0 0 -6px;border-style:solid;border-width:10px 0 10px 17px;border-color:transparent transparent transparent #1b1205}
-.t-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.t-video a.cap{text-decoration:none}
-.tile .vedit{position:absolute;top:6px;right:6px;z-index:2;font:inherit;font-size:12px;padding:3px 9px;border-radius:99px;border:0;background:rgba(0,0,0,.6);color:#fff;cursor:pointer;opacity:0;transition:opacity .15s}
-.tile:hover .vedit,.tile:focus-within .vedit{opacity:1}
-@media (hover:none){.tile .vedit{opacity:1}}
-.tile.add{border:1px dashed var(--muted);background:transparent;color:var(--muted);font:inherit;font-size:13.5px;cursor:pointer;place-items:center;text-align:center;padding:12px}
-.tile.add:hover{color:var(--ink);border-color:var(--led)}
-.tile.add b{display:block;font-size:22px;font-weight:400;color:var(--led)}
-.tile:focus-visible,.tile .play:focus-visible,.tile .vedit:focus-visible{outline:2px solid var(--led);outline-offset:2px}
-.tile:not(.add){transition:transform .2s ease,box-shadow .2s ease}
-.tile:not(.add):hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.14)}
-/* Motivation: dream linked to today's action, if-then plan for the obstacle, reward on completion */
-.why-today{margin:2px 0 0;padding:8px 12px;border-left:3px solid var(--led);background:var(--led-soft);border-radius:0 8px 8px 0;font-size:14px}
-.why-today b{font-weight:600}
-.woop{margin-top:14px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;display:grid;gap:6px}
-.woop p{margin:0;font-size:15px}
-.woop p b{font-weight:600;color:var(--led)}
-.cheer{margin-top:12px;border-radius:8px;padding:10px 12px;background:var(--ok-soft);border:1px solid var(--ok);font-size:14px;font-weight:500}
-@media (prefers-reduced-motion:no-preference){
-  .cheer{animation:rise .35s ease-out}
-  .btn.pop{animation:pop .45s ease-out}
-  .tile{animation:rise .4s ease-out backwards}
-  @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-  @keyframes pop{40%{transform:scale(1.08)}100%{transform:scale(1)}}
-}
-.vform{display:grid;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
-.vform .vf{display:grid;gap:4px}
-.vform input:not([type=file]),.vform select{font:inherit;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%}
 @media (max-width:640px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.today{grid-template-columns:1fr}.weeks summary{grid-template-columns:36px minmax(0,1fr) 60px}.weeks summary .bar{display:none}.plan{margin-left:0}.plan li{grid-template-columns:70px minmax(0,1fr) 18px}}
 @media (prefers-reduced-motion:no-preference){.bar i{transition:width .4s ease}}
+.plan .dsa{font-size:12px;color:var(--muted,#888);margin-top:2px}.plan .mock{font-weight:600}
 </style>
 </head>
 <body>
@@ -154,45 +103,14 @@ textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1p
   </header>
 
   <section class="panel">
-    <div class="row" style="justify-content:space-between">
-      <div style="display:grid;gap:2px"><h2>Vision board</h2><span class="sync">The life this plan is for. Look at it before you study.</span></div>
-      <button class="btn small" id="addVision" type="button">Add to board</button>
-    </div>
-    <div class="vision" id="vision"></div>
-    <div class="woop">
-      <div class="row" style="justify-content:space-between"><span class="label">When it gets hard</span><button class="btn small" id="editPlan" type="button">Edit</button></div>
-      <p>If <b id="obsText">I'm tired after work</b>, then I will <b id="actText">open today's link and do just 15 minutes before dinner</b>.</p>
-      <div id="planForm" hidden style="display:grid;gap:8px;margin-top:6px">
-        <label class="label" for="obsInput">What usually stops you?</label><input id="obsInput" autocomplete="off" style="font:inherit;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)">
-        <label class="label" for="actInput">What you'll do instead, in one small step</label><input id="actInput" autocomplete="off" style="font:inherit;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)">
-        <div class="row" style="gap:8px"><button class="btn primary" id="savePlan" type="button">Save plan</button><button class="btn" id="cancelPlan" type="button">Cancel</button></div>
-      </div>
-    </div>
-    <form class="vform" id="vForm" hidden>
-      <div class="vf"><label class="label" for="vType">What is it?</label><select id="vType"></select></div>
-      <div id="vFields" style="display:flex;flex-direction:column;gap:8px">
-        <div class="vf" data-f="title"><label class="label" for="vTitle"></label><input id="vTitle" autocomplete="off"></div>
-        <div class="vf" data-f="sub"><label class="label" for="vSub"></label><input id="vSub" autocomplete="off"></div>
-        <div class="vf" data-f="cur"><label class="label" for="vCur"></label><input id="vCur" autocomplete="off"></div>
-        <div class="vf" data-f="link"><label class="label" for="vLink"></label><input id="vLink" type="url" placeholder="https://"></div>
-        <div class="vf" data-f="img"><label class="label" for="vImg"></label><input id="vImg" type="url" placeholder="Paste an image link">
-          <label class="sync">or upload from this device: <input id="vFile" type="file" accept="image/*"></label><span class="sync" id="vImgNote"></span></div>
-      </div>
-      <div class="row" style="gap:8px"><button class="btn primary" type="submit">Save</button><button class="btn" id="vCancel" type="button">Cancel</button><button class="btn" id="vDelete" type="button" style="margin-left:auto;color:var(--warn)">Remove</button></div>
-    </form>
-  </section>
-
-  <section class="panel">
     <div class="today">
       <div style="display:grid;gap:6px;min-width:0">
         <span class="label" id="todayLabel">Today</span>
         <h1 id="todayTopic">Loading today's topic</h1>
         <div id="todayLink"></div>
-        <p class="why-today" id="whyToday" hidden></p>
       </div>
       <button class="btn primary" id="markToday" type="button">Mark today done</button>
     </div>
-    <div class="cheer" id="cheer" role="status" hidden></div>
     <p class="sync" style="margin:10px 0 0">15 minutes counts as a streak day. Never miss twice.</p>
     <div class="alert" id="nudge" hidden style="margin-top:12px"></div>
   </section>
@@ -201,7 +119,7 @@ textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1p
     <div class="stats">
       <div class="stat"><span class="label">Current streak</span><b id="sCur">0</b><small>days in a row</small></div>
       <div class="stat"><span class="label">Best streak</span><b id="sBest">0</b><small>days</small></div>
-      <div class="stat"><span class="label">Days you showed up</span><b id="sTotal">0</b><small>each one a vote for the engineer you're becoming</small></div>
+      <div class="stat"><span class="label">Days studied</span><b id="sTotal">0</b><small>since 19 Oct</small></div>
       <div class="stat"><span class="label">Countdown</span><b id="sLeft">0</b><small>days to 25 Apr 2027</small></div>
     </div>
     <div style="margin-top:16px;display:grid;gap:6px">
@@ -234,6 +152,8 @@ textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1p
 
 <script>
 const READING = [["2026-10-19", 0, "Recap: memory layout (.text, .rodata, .data, .bss, stack, heap)", "https://en.wikipedia.org/wiki/Data_segment"], ["2026-10-20", 0, "Recap: volatile and const (and const volatile)", "https://en.cppreference.com/w/c/language/volatile"], ["2026-10-21", 0, "Recap: undefined behaviour and integer promotion", "https://en.cppreference.com/w/c/language/conversion"], ["2026-10-22", 0, "Pointers part 2: pointer to pointer, void *, function pointers", "https://en.cppreference.com/w/c/language/pointer"], ["2026-10-23", 0, "Struct padding and bit operations (set, clear, toggle, test a bit)", "https://en.wikipedia.org/wiki/Bitwise_operations_in_C"],["2026-10-26", 1, "Memory layout: .text, .data, .bss, heap, stack", "https://en.wikipedia.org/wiki/Data_segment"], ["2026-10-27", 1, "Storage duration, linkage and static", "https://en.cppreference.com/w/c/language/storage_duration"], ["2026-10-28", 1, "volatile: what it does and what it does not guarantee", "https://en.cppreference.com/w/c/language/volatile"], ["2026-10-29", 1, "Undefined behaviour in C (why compilers break your code)", "https://en.cppreference.com/w/c/language/behavior"], ["2026-10-30", 1, "Struct padding, alignment and endianness", "https://en.wikipedia.org/wiki/Data_structure_alignment"], ["2026-11-02", 2, "Cortex-M4 programmer's model: registers, MSP/PSP, modes (ch. 2)", "https://developer.arm.com/documentation/dui0553/latest/"], ["2026-11-03", 2, "Cortex-M4 memory model and memory map (ch. 2)", "https://developer.arm.com/documentation/dui0553/latest/"], ["2026-11-04", 2, "Exception model and the vector table (ch. 2)", "https://developer.arm.com/documentation/dui0553/latest/"], ["2026-11-05", 2, "Startup code: what runs before main() (find the startup-code lesson)", "https://www.state-machine.com/video-course"], ["2026-11-06", 2, "GNU linker scripts: MEMORY and SECTIONS", "https://sourceware.org/binutils/docs/ld/Scripts.html"], ["2026-11-09", 3, "NVIC: priorities, preemption, sub-priority (ch. 4, NVIC)", "https://developer.arm.com/documentation/dui0553/latest/"], ["2026-11-10", 3, "Interrupt latency and tail-chaining", "https://en.wikipedia.org/wiki/Interrupt_latency"], ["2026-11-11", 3, "Race conditions and critical sections (find the race-condition lesson)", "https://www.state-machine.com/video-course"], ["2026-11-12", 3, "DMA concepts", "https://en.wikipedia.org/wiki/Direct_memory_access"], ["2026-11-13", 3, "STM32F446 manual: interrupts (NVIC/EXTI) and DMA chapters", "https://www.st.com/resource/en/reference_manual/rm0390-stm32f446xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf"], ["2026-11-16", 4, "STM32F446 manual: general-purpose timers chapter", "https://www.st.com/resource/en/reference_manual/rm0390-stm32f446xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf"], ["2026-11-17", 4, "Watchdog timers and SysTick", "https://en.wikipedia.org/wiki/Watchdog_timer"], ["2026-11-18", 4, "GDB manual: breakpoints, watchpoints, examining memory", "https://sourceware.org/gdb/documentation/"], ["2026-11-19", 4, "OpenOCD user guide: connecting to an ST-Link target", "https://openocd.org/doc/html/index.html"], ["2026-11-20", 4, "UART framing (what you'll see on the logic analyzer)", "https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter"], ["2026-11-23", 5, "What makes an OS real-time", "https://en.wikipedia.org/wiki/Real-time_operating_system"], ["2026-11-24", 5, "FreeRTOS book: Task Management chapter", "https://github.com/FreeRTOS/FreeRTOS-Kernel-Book"], ["2026-11-25", 5, "Context switching (then read xPortPendSVHandler in port.c)", "https://en.wikipedia.org/wiki/Context_switch"], ["2026-11-26", 5, "FreeRTOS port.c for Cortex-M4F: PendSV and SVC handlers", "https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/GCC/ARM_CM4F/port.c"], ["2026-11-27", 5, "FreeRTOS book: Queue Management chapter", "https://github.com/FreeRTOS/FreeRTOS-Kernel-Book"], ["2026-11-30", 6, "Semaphores vs mutexes", "https://en.wikipedia.org/wiki/Semaphore_(programming)"], ["2026-12-01", 6, "Priority inversion (Mars Pathfinder case)", "https://en.wikipedia.org/wiki/Priority_inversion"], ["2026-12-02", 6, "Priority inheritance vs priority ceiling", "https://en.wikipedia.org/wiki/Priority_ceiling_protocol"], ["2026-12-03", 6, "OSEK OS: basic/extended tasks, events, alarms", "https://en.wikipedia.org/wiki/OSEK"], ["2026-12-04", 6, "AUTOSAR OS SWS: resources, OS-Applications, timing protection (search SWS_OS)", "https://www.autosar.org/standards/classic-platform"], ["2026-12-07", 7, "CAN frame format and arbitration", "https://en.wikipedia.org/wiki/CAN_bus"], ["2026-12-08", 7, "CAN bit timing and sample point (CAN module)", "https://elearning.vector.com/"], ["2026-12-09", 7, "CAN error handling: error counters, error passive, bus-off", "https://en.wikipedia.org/wiki/CAN_bus"], ["2026-12-10", 7, "CAN FD: what changes and why", "https://en.wikipedia.org/wiki/CAN_FD"], ["2026-12-11", 7, "AUTOSAR CanIf, CanSM, CanNm SWS (search each name)", "https://www.autosar.org/standards/classic-platform"], ["2026-12-14", 8, "AUTOSAR layered architecture overview", "https://en.wikipedia.org/wiki/AUTOSAR"], ["2026-12-15", 8, "RTE, SWCs, ports and runnables (search 'Layered Software Architecture')", "https://www.autosar.org/standards/classic-platform"], ["2026-12-16", 8, "AUTOSAR COM SWS: signals, I-PDUs, transfer properties", "https://www.autosar.org/standards/classic-platform"], ["2026-12-17", 8, "AUTOSAR PduR SWS: routing paths", "https://www.autosar.org/standards/classic-platform"], ["2026-12-18", 8, "EcuM, BswM and ComM SWS: startup and communication modes", "https://www.autosar.org/standards/classic-platform"], ["2026-12-21", 9, "ISO-TP framing: single, first, consecutive and flow-control frames", "https://en.wikipedia.org/wiki/ISO_15765-2"], ["2026-12-22", 9, "UDS overview: services and sessions", "https://en.wikipedia.org/wiki/Unified_Diagnostic_Services"], ["2026-12-23", 9, "UDS negative response codes and P2/P2* timing (UDS module)", "https://elearning.vector.com/"], ["2026-12-24", 9, "python-can: buses, sending and receiving", "https://python-can.readthedocs.io/"], ["2026-12-25", 9, "can-isotp for Python: testing your ISO-TP layer", "https://can-isotp.readthedocs.io/"], ["2026-12-28", 10, "udsoncan: client basics, 0x22 ReadDataByIdentifier and 0x2E WriteDataByIdentifier", "https://udsoncan.readthedocs.io/"], ["2026-12-29", 10, "0x27 SecurityAccess: seed and key", "https://en.wikipedia.org/wiki/Unified_Diagnostic_Services"], ["2026-12-30", 10, "udsoncan: 0x31 RoutineControl and 0x11 ECUReset", "https://udsoncan.readthedocs.io/"], ["2026-12-31", 10, "0x19 ReadDTCInformation, 0x14 ClearDTC and the DTC status byte", "https://en.wikipedia.org/wiki/Unified_Diagnostic_Services"], ["2027-01-01", 10, "AUTOSAR DEM SWS: debouncing, operation cycles, aging (search SWS_DEM)", "https://www.autosar.org/standards/classic-platform"], ["2027-01-04", 11, "STM32F446 manual: embedded flash, sectors, erase and program", "https://www.st.com/resource/en/reference_manual/rm0390-stm32f446xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf"], ["2027-01-05", 11, "UDS reprogramming: 0x34 RequestDownload, 0x36 TransferData, 0x37 Exit", "https://en.wikipedia.org/wiki/Unified_Diagnostic_Services"], ["2027-01-06", 11, "CRC: how it works and choosing a polynomial", "https://en.wikipedia.org/wiki/Cyclic_redundancy_check"], ["2027-01-07", 11, "Jumping to the application: VTOR and the System Control Block (ch. 4)", "https://developer.arm.com/documentation/dui0553/latest/"], ["2027-01-08", 11, "AUTOSAR NvM SWS: blocks, CRC, write strategies (search SWS_NVRAMManager)", "https://www.autosar.org/standards/classic-platform"], ["2027-01-11", 12, "ISO 26262 overview: parts and the safety lifecycle", "https://en.wikipedia.org/wiki/ISO_26262"], ["2027-01-12", 12, "HARA and ASIL determination (severity, exposure, controllability)", "https://en.wikipedia.org/wiki/Automotive_Safety_Integrity_Level"], ["2027-01-13", 12, "AUTOSAR E2E protection library: profiles, counters, CRC (search E2E)", "https://www.autosar.org/standards/classic-platform"], ["2027-01-14", 12, "MISRA C: why the rules exist", "https://en.wikipedia.org/wiki/MISRA_C"], ["2027-01-15", 12, "Automotive SPICE: SWE.1 to SWE.6", "https://en.wikipedia.org/wiki/Automotive_SPICE"], ["2027-01-18", 13, "Processes: fork, exec, wait", "https://man7.org/linux/man-pages/man2/fork.2.html"], ["2027-01-19", 13, "POSIX threads", "https://man7.org/linux/man-pages/man7/pthreads.7.html"], ["2027-01-20", 13, "Signals: delivery, masks, safe handlers", "https://man7.org/linux/man-pages/man7/signal.7.html"], ["2027-01-21", 13, "IPC: POSIX message queues (then man7/shm_overview.7)", "https://man7.org/linux/man-pages/man7/mq_overview.7.html"], ["2027-01-22", 13, "Linux scheduling policies: SCHED_FIFO, SCHED_RR, SCHED_OTHER", "https://man7.org/linux/man-pages/man7/sched.7.html"], ["2027-01-25", 14, "Linux boot process: firmware, bootloader, kernel, init", "https://en.wikipedia.org/wiki/Booting_process_of_Linux"], ["2027-01-26", 14, "U-Boot documentation: boot flow and environment", "https://docs.u-boot-project.org/en/latest/"], ["2027-01-27", 14, "Device tree usage model", "https://docs.kernel.org/devicetree/usage-model.html"], ["2027-01-28", 14, "Yocto Project quick build", "https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html"], ["2027-01-29", 14, "Bootlin Yocto training slides: layers, recipes, images", "https://bootlin.com/docs/"], ["2027-02-01", 15, "LFD103: first modules (free course)", "https://training.linuxfoundation.org/training/a-beginners-guide-to-linux-kernel-development-lfd103/"], ["2027-02-02", 15, "Loadable kernel modules", "https://en.wikipedia.org/wiki/Loadable_kernel_module"], ["2027-02-03", 15, "Bootlin kernel training slides: character drivers", "https://bootlin.com/docs/"], ["2027-02-04", 15, "Kernel interrupt handling: request_irq and flow handlers", "https://docs.kernel.org/core-api/genericirq.html"], ["2027-02-05", 15, "ftrace: tracing the kernel", "https://docs.kernel.org/trace/ftrace.html"], ["2027-02-08", 16, "SocketCAN: the Linux CAN API", "https://docs.kernel.org/networking/can.html"], ["2027-02-09", 16, "can-utils: candump, cansend, cangen", "https://github.com/linux-can/can-utils"], ["2027-02-10", 16, "PREEMPT_RT: what real-time Linux changes", "https://wiki.linuxfoundation.org/realtime/start"], ["2027-02-11", 16, "RT group scheduling and RT throttling", "https://docs.kernel.org/scheduler/sched-rt-group.html"], ["2027-02-12", 16, "Review: Linux latency sources (re-read sched man page, RT sections)", "https://man7.org/linux/man-pages/man7/sched.7.html"], ["2027-02-15", 17, "RAII", "https://en.cppreference.com/w/cpp/language/raii"], ["2027-02-16", 17, "std::unique_ptr", "https://en.cppreference.com/w/cpp/memory/unique_ptr"], ["2027-02-17", 17, "std::shared_ptr and weak_ptr", "https://en.cppreference.com/w/cpp/memory/shared_ptr"], ["2027-02-18", 17, "Move constructors and move semantics", "https://en.cppreference.com/w/cpp/language/move_constructor"], ["2027-02-19", 17, "constexpr and templates", "https://en.cppreference.com/w/cpp/language/constexpr"], ["2027-02-22", 18, "std::thread", "https://en.cppreference.com/w/cpp/thread/thread"], ["2027-02-23", 18, "std::mutex and lock_guard", "https://en.cppreference.com/w/cpp/thread/mutex"], ["2027-02-24", 18, "std::condition_variable", "https://en.cppreference.com/w/cpp/thread/condition_variable"], ["2027-02-25", 18, "std::atomic", "https://en.cppreference.com/w/cpp/atomic/atomic"], ["2027-02-26", 18, "Memory ordering: relaxed, acquire, release, seq_cst", "https://en.cppreference.com/w/cpp/atomic/memory_order"], ["2027-03-01", 19, "Adaptive Platform overview: why it exists, Classic vs Adaptive", "https://www.autosar.org/standards/adaptive-platform"], ["2027-03-02", 19, "ara::com: proxies, skeletons, service discovery (search 'Explanation of ara::com API')", "https://www.autosar.org/standards/adaptive-platform"], ["2027-03-03", 19, "Execution Management and State Management (search the SWS documents)", "https://www.autosar.org/standards/adaptive-platform"], ["2027-03-04", 19, "Persistency and Update & Configuration Management (UCM)", "https://www.autosar.org/standards/adaptive-platform"], ["2027-03-05", 19, "Eclipse S-CORE: open-source safety-critical SDV core", "https://eclipse-score.github.io/"], ["2027-03-08", 20, "SOME/IP protocol: header, methods, events, fields (search PRS_SOMEIPProtocol)", "https://www.autosar.org/standards/adaptive-platform"], ["2027-03-09", 20, "SOME/IP Service Discovery (search PRS_SOMEIPServiceDiscoveryProtocol)", "https://www.autosar.org/standards/adaptive-platform"], ["2027-03-10", 20, "vsomeip: user guide and examples", "https://github.com/COVESA/vsomeip/wiki"], ["2027-03-11", 20, "DoIP and diagnostics over Ethernet", "https://en.wikipedia.org/wiki/Unified_Diagnostic_Services"], ["2027-03-12", 20, "DDS: publish/subscribe for vehicles", "https://en.wikipedia.org/wiki/Data_Distribution_Service"], ["2027-03-15", 21, "ISO/SAE 21434 scope and work products", "https://www.iso.org/standard/70918.html"], ["2027-03-16", 21, "Car Hacker's Handbook ch. 1: threat models (TARA thinking)", "http://opengarages.org/handbook/"], ["2027-03-17", 21, "CMAC: the MAC used by SecOC", "https://en.wikipedia.org/wiki/One-key_MAC"], ["2027-03-18", 21, "Hardware security modules and secure boot", "https://en.wikipedia.org/wiki/Hardware_security_module"], ["2027-03-19", 21, "Car Hacker's Handbook: CAN bus attacks chapter", "http://opengarages.org/handbook/"], ["2027-03-22", 22, "OTA updates overview", "https://en.wikipedia.org/wiki/Over-the-air_update"], ["2027-03-23", 22, "RAUC: A/B slots, bundles, rollback", "https://rauc.readthedocs.io/"], ["2027-03-24", 22, "SWUpdate: alternative update framework", "https://swupdate.org/"], ["2027-03-25", 22, "UCM in Adaptive AUTOSAR (search SWS_UpdateAndConfigManagement)", "https://www.autosar.org/standards/adaptive-platform"], ["2027-03-26", 22, "RAUC: signing bundles and keyrings", "https://rauc.readthedocs.io/"], ["2027-03-29", 23, "Catch-up: re-read your weakest Month 1-2 note", ""], ["2027-03-30", 23, "Catch-up: re-read your weakest Month 3 note", ""], ["2027-03-31", 23, "Catch-up: re-read your weakest Month 4 note", ""], ["2027-04-01", 23, "Catch-up: re-read your weakest Month 5 note", ""], ["2027-04-02", 23, "Catch-up: redo the 20-question self-check", ""], ["2027-04-05", 24, "Eclipse SDV: what a software-defined vehicle stack looks like", "https://eclipsesdv.org/"], ["2027-04-06", 24, "Zonal architecture and central compute (Eclipse SDV projects overview)", "https://eclipsesdv.org/"], ["2027-04-07", 24, "System design practice: design OTA for a car (use RAUC concepts)", "https://rauc.readthedocs.io/"], ["2027-04-08", 24, "COVESA Vehicle Signal Specification", "https://covesa.github.io/vehicle_signal_specification/"], ["2027-04-09", 24, "Eclipse Kuksa: vehicle data broker", "https://eclipse.dev/kuksa/"], ["2027-04-12", 25, "STAR method for interview answers", "https://en.wikipedia.org/wiki/Situation,_task,_action,_result"], ["2027-04-13", 25, "Write STAR story 1: hardest bug at Wipro", ""], ["2027-04-14", 25, "Write STAR story 2: a design trade-off", ""], ["2027-04-15", 25, "Write STAR story 3: CDAC POS/NCMC project", ""], ["2027-04-16", 25, "Mock interview prep: revise C/MCU notes", ""], ["2027-04-19", 26, "Interview revision: C and Cortex-M notes", ""], ["2027-04-20", 26, "Interview revision: AUTOSAR Classic notes", ""], ["2027-04-21", 26, "Interview revision: Linux notes", ""], ["2027-04-22", 26, "Interview revision: Adaptive/SOME-IP notes", ""], ["2027-04-23", 26, "Interview revision: safety and security notes", ""]];
+const DSA = {"9":["Bit manipulation",[["Number of 1 Bits","https://leetcode.com/problems/number-of-1-bits/"],["Reverse Bits","https://leetcode.com/problems/reverse-bits/"],["Power of Two","https://leetcode.com/problems/power-of-two/"],["Single Number","https://leetcode.com/problems/single-number/"]]],"10":["Arrays",[["Two Sum","https://leetcode.com/problems/two-sum/"],["Remove Duplicates from Sorted Array","https://leetcode.com/problems/remove-duplicates-from-sorted-array/"],["Move Zeroes","https://leetcode.com/problems/move-zeroes/"],["Rotate Array","https://leetcode.com/problems/rotate-array/"]]],"11":["Strings",[["Reverse String","https://leetcode.com/problems/reverse-string/"],["Valid Palindrome","https://leetcode.com/problems/valid-palindrome/"],["Valid Anagram","https://leetcode.com/problems/valid-anagram/"],["String to Integer (atoi)","https://leetcode.com/problems/string-to-integer-atoi/"]]],"12":["Hash maps",[["Contains Duplicate","https://leetcode.com/problems/contains-duplicate/"],["Group Anagrams","https://leetcode.com/problems/group-anagrams/"],["Top K Frequent Elements","https://leetcode.com/problems/top-k-frequent-elements/"],["Longest Consecutive Sequence","https://leetcode.com/problems/longest-consecutive-sequence/"]]],"13":["Two pointers",[["Two Sum II","https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/"],["Merge Sorted Array","https://leetcode.com/problems/merge-sorted-array/"],["Container With Most Water","https://leetcode.com/problems/container-with-most-water/"],["3Sum","https://leetcode.com/problems/3sum/"]]],"14":["Sliding window",[["Best Time to Buy and Sell Stock","https://leetcode.com/problems/best-time-to-buy-and-sell-stock/"],["Maximum Average Subarray I","https://leetcode.com/problems/maximum-average-subarray-i/"],["Minimum Size Subarray Sum","https://leetcode.com/problems/minimum-size-subarray-sum/"],["Longest Substring Without Repeating Characters","https://leetcode.com/problems/longest-substring-without-repeating-characters/"]]],"15":["Linked lists",[["Reverse Linked List","https://leetcode.com/problems/reverse-linked-list/"],["Merge Two Sorted Lists","https://leetcode.com/problems/merge-two-sorted-lists/"],["Linked List Cycle","https://leetcode.com/problems/linked-list-cycle/"],["Remove Nth Node From End of List","https://leetcode.com/problems/remove-nth-node-from-end-of-list/"]]],"16":["Stacks, queues, ring buffers",[["Valid Parentheses","https://leetcode.com/problems/valid-parentheses/"],["Min Stack","https://leetcode.com/problems/min-stack/"],["Implement Queue using Stacks","https://leetcode.com/problems/implement-queue-using-stacks/"],["Design Circular Queue","https://leetcode.com/problems/design-circular-queue/"]]],"17":["Binary search",[["Binary Search","https://leetcode.com/problems/binary-search/"],["Search Insert Position","https://leetcode.com/problems/search-insert-position/"],["Find Peak Element","https://leetcode.com/problems/find-peak-element/"],["Search in Rotated Sorted Array","https://leetcode.com/problems/search-in-rotated-sorted-array/"]]],"18":["Trees I",[["Maximum Depth of Binary Tree","https://leetcode.com/problems/maximum-depth-of-binary-tree/"],["Invert Binary Tree","https://leetcode.com/problems/invert-binary-tree/"],["Same Tree","https://leetcode.com/problems/same-tree/"],["Binary Tree Level Order Traversal","https://leetcode.com/problems/binary-tree-level-order-traversal/"]]],"19":["Trees II (BST)",[["Validate Binary Search Tree","https://leetcode.com/problems/validate-binary-search-tree/"],["Lowest Common Ancestor of a BST","https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/"],["Kth Smallest Element in a BST","https://leetcode.com/problems/kth-smallest-element-in-a-bst/"],["Diameter of Binary Tree","https://leetcode.com/problems/diameter-of-binary-tree/"]]],"20":["Heaps and intervals",[["Kth Largest Element in a Stream","https://leetcode.com/problems/kth-largest-element-in-a-stream/"],["Kth Largest Element in an Array","https://leetcode.com/problems/kth-largest-element-in-an-array/"],["Merge Intervals","https://leetcode.com/problems/merge-intervals/"],["Non-overlapping Intervals","https://leetcode.com/problems/non-overlapping-intervals/"]]],"21":["Matrix and bits II",[["Counting Bits","https://leetcode.com/problems/counting-bits/"],["Rotate Image","https://leetcode.com/problems/rotate-image/"],["Spiral Matrix","https://leetcode.com/problems/spiral-matrix/"],["Set Matrix Zeroes","https://leetcode.com/problems/set-matrix-zeroes/"]]],"22":["Graphs (BFS/DFS)",[["Flood Fill","https://leetcode.com/problems/flood-fill/"],["Number of Islands","https://leetcode.com/problems/number-of-islands/"],["Rotting Oranges","https://leetcode.com/problems/rotting-oranges/"],["Course Schedule","https://leetcode.com/problems/course-schedule/"]]],"23":["Dynamic programming basics",[["Climbing Stairs","https://leetcode.com/problems/climbing-stairs/"],["House Robber","https://leetcode.com/problems/house-robber/"],["Coin Change","https://leetcode.com/problems/coin-change/"],["Longest Increasing Subsequence","https://leetcode.com/problems/longest-increasing-subsequence/"]]],"24":["Design problems",[["Design HashSet","https://leetcode.com/problems/design-hashset/"],["Design Circular Deque","https://leetcode.com/problems/design-circular-deque/"],["LRU Cache","https://leetcode.com/problems/lru-cache/"],["Insert Delete GetRandom O(1)","https://leetcode.com/problems/insert-delete-getrandom-o1/"]]],"25":["Review",[["Redo 2 problems from your DSA mistakes log",""],["Redo 2 more from the mistakes log",""]]],"26":["Timed practice",[["Timed: 2 mediums in 45 minutes (pick from weeks 13-24)",""],["Timed: 2 more mediums in 45 minutes",""]]]};
+const MOCKS = {"8":"Mock interview 1 (replaces teach-back): C, MCU, RTOS, CAN. 60 min, out loud","16":"Mock interview 2 (replaces teach-back): AUTOSAR, UDS, Linux + 1 live DSA problem"};
 const WEEKS = ["Warm-up: finish week 1 topics","C in depth","Cortex-M startup + linker","Interrupts, NVIC, DMA","Timers + GDB debugging","RTOS internals","RTOS sync + AUTOSAR OS","CAN / CAN-FD deep dive","AUTOSAR COM stack","ISO-TP + UDS basics","UDS services + DCM/DEM","CAN bootloader (part 1)","ISO 26262 + bootloader part 2","Linux system programming","Linux boot + Yocto","Kernel modules + char driver","SocketCAN gateway","Modern C++","C++ concurrency","Adaptive AUTOSAR","SOME/IP + vsomeip","Automotive security","OTA updates","Catch-up week","System design + capstone write-up","Interview prep + mock interviews","Apply + review interviews"];
 const START = new Date(2026,9,19); // Mon 19 Oct (warm-up week = week 0)
 const END = new Date(2027,3,25);
@@ -265,10 +185,6 @@ function render(){
   if(r){ $("todayTopic").textContent=r[2]; $("todayLink").innerHTML = r[3] ? '<a target="_blank" rel="noopener"></a>' : ""; if(r[3]){const a=$("todayLink").firstChild;a.href=r[3];a.textContent="Open today's reading";} }
   else if(w===0){ $("todayTopic").textContent="Warm-up: pointers part 2, struct padding, bit ops"; $("todayLink").innerHTML='<span class="sync">Ask Claude in the Career Coach thread for today\'s 15-minute task.</span>'; }
   else { $("todayTopic").textContent = (today.getDay()===6?"Saturday build: ":"Sunday teach-back: ") + (WEEKS[w]||"review"); $("todayLink").innerHTML='<span class="sync">Weekend block. Even 15 minutes keeps the streak.</span>'; }
-  // tie today's small task to one dream from the board, a different one each day
-  const dream = dreamOfDay(), wt = $("whyToday");
-  wt.hidden = !dream; wt.textContent = "";
-  if(dream){ wt.appendChild(el("b","","Why today matters: ")); wt.appendChild(document.createTextNode(dream.type==="quote" ? "“"+dream.title+"”" : "15 minutes closer to "+dreamText(dream)+".")); }
   const isDone = done.has(todayIso);
   $("markToday").textContent = isDone ? "Done today ✓" : "Mark today done";
   $("markToday").className = "btn " + (isDone ? "done" : "primary");
@@ -281,8 +197,6 @@ function render(){
   $("weekLabel").textContent = w<0 ? "Starts 19 Oct" : w>26 ? "Plan complete" : "Week "+w+" of 26 · "+WEEKS[w];
 
   const y1 = iso(new Date(today-DAY)), y2 = iso(new Date(today-2*DAY));
-  // Android app: hand today's status to the evening reminder
-  if(window.SDVApp){ try{ SDVApp.status(todayIso, isDone, s.cur, done.has(y1), $("todayTopic").textContent, cfg.url||""); }catch(e){} }
   const nudge=$("nudge");
   if(!isDone && !done.has(y1) && today-START>=DAY){ nudge.hidden=false; nudge.className="alert bad"; nudge.textContent = done.has(y2)||done.size===0 ? "You missed yesterday. Today is the day that matters: do 15 minutes and the habit stays alive." : "Two days missed. Do the smallest possible thing now: open today's link for 15 minutes."; }
   else if(!isDone){ nudge.hidden=false; nudge.className="alert"; nudge.textContent = s.cur ? "Keep the "+s.cur+"-day streak going: 15 minutes is enough." : "Start a streak today."; }
@@ -324,6 +238,13 @@ function render(){
       if(r&&r[3]){ const a=document.createElement("a"); a.href=r[3]; a.target="_blank"; a.rel="noopener"; a.textContent=r[2]; tp.appendChild(a); }
       else if(r) tp.textContent=r[2];
       else tp.textContent = k===5 ? (i===0?"Build: pointer and bit-ops exercises in C":"Build: this week's hands-on task (10:00 to 13:00)") : k===6 ? "Teach-back: explain the week to Claude, 5 interview questions" : "Review";
+      if(k===6&&MOCKS[i]){ tp.textContent=""; const m=document.createElement("b"); m.className="mock"; m.textContent=MOCKS[i]; tp.appendChild(m); }
+      const dq=DSA[i]; if(dq&&(k===1||k===3)&&dq[1].length){
+        const box=document.createElement("div"); box.className="dsa"; box.append("DSA 21:30 ("+dq[0]+"): ");
+        const ps=dq[1].slice(k===1?0:2,k===1?2:4); if(!ps.length) box.append("redo two misses from mistakes/dsa-log.md");
+        ps.forEach((p,j)=>{ if(j) box.append(", "); const a=document.createElement("a"); a.href=p[1]; a.target="_blank"; a.rel="noopener"; a.textContent=p[0]; box.appendChild(a); });
+        tp.appendChild(box);
+      } else if(dq&&(k===1||k===3)){ const box=document.createElement("div"); box.className="dsa"; box.textContent="DSA 21:30: "+dq[0]; tp.appendChild(box); }
       const cb=document.createElement("input"); cb.type="checkbox"; cb.className="tick"; cb.checked=done.has(key);
       cb.disabled = d>today; cb.title = d>today ? "Can't mark a future day" : (cb.checked?"Mark not done":"Mark done");
       cb.setAttribute("aria-label",row.children[0].textContent+" done");
@@ -367,165 +288,9 @@ async function pull(){
     if(g&&g.value) $("goalText").textContent=g.value;
     if(w) $("goalWhy").textContent = w.value ? "Why: "+w.value : "";
     LS.set("sdv.goal",{text:$("goalText").textContent,why:w?w.value:""});
-    // vision tiles live as one row each ("vision:<id>"); tiles made offline are pushed up
-    const vs = rows.filter(r=>r.key.startsWith("vision:")).map(r=>{ try{ return JSON.parse(r.value); }catch(e){ return null; } }).filter(Boolean);
-    const ids = new Set(vs.map(v=>v.id)), pend = vision.filter(v=>v.p && !ids.has(v.id));
-    const next = [...vs,...pend].sort((a,b)=>a.id<b.id?-1:1);
-    if(JSON.stringify(next)!==JSON.stringify(vision)){ vision=next; persistVision(); renderVision(); }
-    pend.forEach(pushVision);
-    const ob = rows.find(r=>r.key==="obstacle"), it = rows.find(r=>r.key==="ifthen");
-    if(ob&&ob.value&&it&&it.value){ showPlan(ob.value,it.value); LS.set("sdv.plan",{obs:ob.value,act:it.value}); }
     render(); setSync("Synced with Google Sheet");
   }catch(e){ setSync("Couldn't reach the Google Sheet. Showing this browser's copy."); }
 }
-
-// ---- vision board ----
-const VTYPES = {
-  company:{name:"Dream company", f:{title:"Company name", sub:"The role you want there", img:"Logo (optional)", link:"Careers page (optional)"}},
-  salary: {name:"Target salary", f:{title:"Target, e.g. ₹40 LPA", cur:"Where you are now, e.g. ₹16 LPA (optional)"}},
-  video:  {name:"Video walkthrough", f:{link:"YouTube link: office tour, day in the life, the car you'll build", title:"Caption (optional)"}},
-  image:  {name:"Picture", f:{img:"Picture: the office, the city, the car, the home", title:"Caption (optional)"}},
-  quote:  {name:"Words to live by", f:{title:"Affirmation or quote", sub:"Who said it (optional)"}}
-};
-let vision = LS.get("sdv.vision",[]);
-let vEditing = null, vImgData = "";
-function persistVision(){ LS.set("sdv.vision",vision); }
-const safeUrl = u => /^https?:\/\//i.test(u||"") ? u : "";
-const safeImg = u => /^(https?:\/\/|data:image\/)/i.test(u||"") ? u : "";
-function ytId(u){ const m=(u||"").match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/))([\w-]{11})/); return m?m[1]:""; }
-const num = s => { const m=String(s||"").replace(/,/g,"").match(/\d+(\.\d+)?/); return m?parseFloat(m[0]):NaN; };
-function el(tag,cls,text){ const e=document.createElement(tag); if(cls) e.className=cls; if(text) e.textContent=text; return e; }
-
-function tileEl(v){
-  const t=el("div","tile t-"+v.type);
-  if(v.type==="image"){
-    if(safeImg(v.img)){ const im=el("img","cover"); im.src=v.img; im.alt=v.title||"Vision picture"; im.loading="lazy"; t.appendChild(im); }
-    if(v.title) t.appendChild(el("div","cap",v.title));
-  } else if(v.type==="company"){
-    if(safeImg(v.img)){ const im=el("img","logo"); im.src=v.img; im.alt=""; t.appendChild(im); }
-    else t.appendChild(el("span","mono",(v.title||"?").trim().slice(0,1).toUpperCase()));
-    const b=el("b"); if(safeUrl(v.link)){ const a=el("a","",v.title); a.href=v.link; a.target="_blank"; a.rel="noopener"; b.appendChild(a); } else b.textContent=v.title;
-    t.appendChild(b); if(v.sub) t.appendChild(el("small","",v.sub));
-  } else if(v.type==="salary"){
-    t.appendChild(el("span","label","Target salary")); t.appendChild(el("b","",v.title));
-    const c=num(v.cur), g=num(v.title);
-    if(v.cur){
-      if(c>0&&g>0){ const bar=el("div","bar"), i=el("i"); i.style.width=Math.min(100,c/g*100)+"%"; bar.appendChild(i); t.appendChild(bar); }
-      t.appendChild(el("small","", c>=g ? "Reached from "+v.cur+". Raise the bar." : "Now "+v.cur+(c>0&&g>0?" · "+(g/c).toFixed(1)+"× to go":"")));
-    }
-  } else if(v.type==="video"){
-    t.classList.add("wide");
-    const id=ytId(v.link);
-    if(id){
-      const im=el("img","cover"); im.src="https://i.ytimg.com/vi/"+id+"/hqdefault.jpg"; im.alt=""; im.loading="lazy"; t.appendChild(im);
-      const p=el("button","play"); p.type="button"; p.setAttribute("aria-label","Play "+(v.title||"video"));
-      if(v.title) p.appendChild(el("span","cap",v.title));
-      p.onclick=()=>{ const f=el("iframe"); f.src="https://www.youtube-nocookie.com/embed/"+id+"?autoplay=1&rel=0"; f.title=v.title||"Video"; f.allow="autoplay; encrypted-media; picture-in-picture; fullscreen"; f.allowFullscreen=true; im.remove(); p.replaceWith(f); };
-      t.appendChild(p);
-    } else if(safeUrl(v.link)){ const a=el("a","cap",(v.title||"Watch")+" ↗"); a.href=v.link; a.target="_blank"; a.rel="noopener"; t.appendChild(a); }
-  } else if(v.type==="quote"){
-    t.classList.add("wide"); t.appendChild(el("p","",v.title)); if(v.sub) t.appendChild(el("small","","— "+v.sub));
-  }
-  const e=el("button","vedit","Edit"); e.type="button"; e.setAttribute("aria-label","Edit "+(v.title||VTYPES[v.type].name)); e.onclick=()=>openVision(v.type,v);
-  t.appendChild(e);
-  return t;
-}
-
-function renderVision(){
-  const box=$("vision"); box.innerHTML="";
-  vision.filter(v=>VTYPES[v.type]).forEach(v=>box.appendChild(tileEl(v)));
-  // nudge tiles for the three anchors that are still missing
-  ["company","salary","video"].filter(k=>!vision.some(v=>v.type===k)).forEach(k=>{
-    const b=el("button","tile add"+(k==="video"?" wide":"")); b.type="button";
-    b.appendChild(el("b","","+")); b.appendChild(document.createTextNode("Add your "+VTYPES[k].name.toLowerCase()));
-    b.onclick=()=>openVision(k); box.appendChild(b);
-  });
-}
-
-function dreamOfDay(){
-  const pool = vision.filter(v=>v.title && v.type!=="video");
-  return pool.length ? pool[Math.floor(today/DAY) % pool.length] : null;
-}
-function dreamText(v){ return v.type==="company" && v.sub ? v.sub+" at "+v.title : v.title; }
-
-// reward right after the action: streak count, milestone, and the dream it moves you toward
-const MILESTONES = {3:"Three days. The hardest part, starting, is behind you.", 7:"A full week. This is where a habit starts to hold.", 14:"Two weeks straight. You're not trying anymore, you're doing.", 21:"21 days. This is part of who you are now.", 30:"30 days. Most people never get here.", 50:"50 days. Interviewers will hear this in how you answer.", 100:"100 days. Remarkable."};
-let cheerTimer = 0;
-function cheer(){
-  const s = streaks().cur, d = dreamOfDay();
-  $("cheer").textContent = "Day "+s+" in a row, done. " + (MILESTONES[s] || (d && d.type!=="quote" ? "You just moved closer to "+dreamText(d)+"." : "That's one more vote for the engineer you're becoming."));
-  $("cheer").hidden = false;
-  $("markToday").classList.add("pop");
-  clearTimeout(cheerTimer); cheerTimer = setTimeout(()=>{ $("cheer").hidden=true; }, 8000);
-}
-
-function setVType(k){
-  const f=VTYPES[k].f, keys=Object.keys(f);
-  document.querySelectorAll("#vFields .vf").forEach(row=>{
-    const name=row.dataset.f; row.hidden=!f[name]; row.style.order=keys.indexOf(name);
-    if(f[name]) row.querySelector(".label").textContent=f[name];
-  });
-}
-function openVision(type,v){
-  vEditing=v||null; vImgData=v?v.img||"":"";
-  $("vType").value=type; $("vType").disabled=!!v; setVType(type);
-  $("vTitle").value=v?v.title||"":""; $("vSub").value=v?v.sub||"":""; $("vCur").value=v?v.cur||"":""; $("vLink").value=v?v.link||"":"";
-  $("vImg").value=/^https?:/i.test(vImgData)?vImgData:""; $("vFile").value=""; $("vImgNote").textContent=vImgData.startsWith("data:")?"Uploaded picture kept.":"";
-  $("vDelete").hidden=!v; $("vForm").hidden=false;
-  $("vForm").scrollIntoView({block:"nearest",behavior:"smooth"});
-  $("vForm").querySelector("#vFields .vf:not([hidden]) input").focus({preventScroll:true});
-}
-// shrink an upload to a JPEG small enough for one Google Sheet cell (50k chars)
-function shrink(file){
-  return new Promise((res,rej)=>{
-    const im=new Image();
-    im.onload=()=>{
-      let s=Math.min(1,640/Math.max(im.width,im.height)), q=.8, out;
-      const c=document.createElement("canvas"), x=c.getContext("2d");
-      do{
-        c.width=Math.round(im.width*s); c.height=Math.round(im.height*s);
-        x.fillStyle="#fff"; x.fillRect(0,0,c.width,c.height); x.drawImage(im,0,0,c.width,c.height);
-        out=c.toDataURL("image/jpeg",q); q-=.15; if(q<.4){ s*=.75; q=.7; }
-      } while(out.length>40000);
-      URL.revokeObjectURL(im.src); res(out);
-    };
-    im.onerror=rej; im.src=URL.createObjectURL(file);
-  });
-}
-async function pushVision(v){
-  if(!cfg.url) return;
-  try{ const {p,...data}=v; await sheetPut("vision:"+v.id, JSON.stringify(data)); delete v.p; persistVision(); }
-  catch(e){ setSync("Vision board saved here, but not in the Google Sheet yet."); }
-}
-
-Object.entries(VTYPES).forEach(([k,t])=>$("vType").appendChild(Object.assign(document.createElement("option"),{value:k,textContent:t.name})));
-$("vType").onchange=()=>setVType($("vType").value);
-$("addVision").onclick=()=>openVision("image");
-$("vCancel").onclick=()=>{ $("vForm").hidden=true; };
-$("vImg").oninput=()=>{ vImgData=$("vImg").value.trim(); $("vImgNote").textContent=""; };
-$("vFile").onchange=async()=>{
-  const f=$("vFile").files[0]; if(!f) return;
-  $("vImgNote").textContent="Preparing picture…";
-  try{ vImgData=await shrink(f); $("vImg").value=""; $("vImgNote").textContent="Picture ready."; }
-  catch(e){ $("vImgNote").textContent="Couldn't read that file. Try a JPG or PNG."; }
-};
-$("vForm").onsubmit=e=>{
-  e.preventDefault();
-  const type=$("vType").value, first=$("vFields").querySelector(".vf[data-f='"+Object.keys(VTYPES[type].f)[0]+"'] input");
-  const v={ id:vEditing?vEditing.id:"v"+Date.now().toString(36), type, title:$("vTitle").value.trim(), p:1 };
-  const f=VTYPES[type].f;
-  if(f.sub) v.sub=$("vSub").value.trim(); if(f.cur) v.cur=$("vCur").value.trim();
-  if(f.link) v.link=safeUrl($("vLink").value.trim()); if(f.img) v.img=safeImg(vImgData);
-  const need = {company:v.title, salary:v.title, quote:v.title, video:v.link, image:v.img}[type];
-  if(!need){ (first||$("vTitle")).focus(); $("vImgNote").textContent = type==="image"?"Add a picture link or upload one.":""; return; }
-  vision = vEditing ? vision.map(x=>x.id===v.id?v:x) : [...vision,v];
-  persistVision(); renderVision(); render(); $("vForm").hidden=true; pushVision(v);
-};
-$("vDelete").onclick=async()=>{
-  if(!vEditing) return;
-  const id=vEditing.id; vision=vision.filter(x=>x.id!==id); persistVision(); renderVision(); render(); $("vForm").hidden=true;
-  try{ await sheetPut("vision:"+id,""); }catch(e){ setSync("Removed here, but the Google Sheet still has it."); }
-};
 
 async function toggle(k){
   const was=done.has(k);
@@ -534,18 +299,7 @@ async function toggle(k){
   catch(e){ setSync(e.message==="wrong token" ? "Sheet refused the change: check the secret word in Settings." : "Saved here, but the Google Sheet didn't update. It will be fixed on the next change."); }
 }
 
-$("markToday").onclick=()=>{ const was=done.has(todayIso); toggle(todayIso); if(!was) cheer(); else $("cheer").hidden=true; };
-$("markToday").onanimationend=()=>$("markToday").classList.remove("pop");
-// if-then plan for the obstacle (implementation intention)
-function showPlan(o,a){ $("obsText").textContent=o; $("actText").textContent=a; }
-const savedPlan = LS.get("sdv.plan",null); if(savedPlan) showPlan(savedPlan.obs,savedPlan.act);
-$("editPlan").onclick=()=>{ $("obsInput").value=$("obsText").textContent; $("actInput").value=$("actText").textContent; $("planForm").hidden=false; $("obsInput").focus(); };
-$("cancelPlan").onclick=()=>{ $("planForm").hidden=true; };
-$("savePlan").onclick=async()=>{
-  const o=$("obsInput").value.trim().replace(/\.$/,""), a=$("actInput").value.trim().replace(/\.$/,""); if(!o||!a) return;
-  showPlan(o,a); LS.set("sdv.plan",{obs:o,act:a}); $("planForm").hidden=true;
-  try{ await sheetPut("obstacle",o); await sheetPut("ifthen",a); }catch(e){ setSync("Plan saved here, but not in the Google Sheet."); }
-};
+$("markToday").onclick=()=>toggle(todayIso);
 $("editGoal").onclick=()=>{ $("goalInput").value=$("goalText").textContent; $("whyInput").value=$("goalWhy").textContent.replace(/^Why:\s*/,""); $("goalForm").hidden=false; };
 $("cancelGoal").onclick=()=>{$("goalForm").hidden=true;};
 $("saveGoal").onclick=async()=>{
@@ -559,7 +313,6 @@ $("saveCfg").onclick=()=>{ cfg={url:$("cfgUrl").value.trim(),token:$("cfgToken")
 
 if(savedGoal){ $("goalText").textContent=savedGoal.text; $("goalWhy").textContent=savedGoal.why?"Why: "+savedGoal.why:""; }
 render();
-renderVision();
 pull();
 // keep every open copy (phone, browser, startup window) in step with the sheet
 window.addEventListener('focus',()=>{ if(cfg.url) pull(); });

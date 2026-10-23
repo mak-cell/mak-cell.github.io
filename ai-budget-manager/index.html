@@ -1,104 +1,200 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en-IN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Money: Split, Khata & Budget</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Money: Split, Khata &amp; Budget – Expense Tracker, Udhar Khata &amp; Bill Splitter</title>
+  <meta name="description" content="Money is a private money manager for India: track expenses automatically from bank SMS, keep an udhar khata, split bills with friends and groups, plan budgets, and get credit card bill and EMI reminders. No sign-up.">
+  <meta name="keywords" content="money manager, expense tracker, udhar khata, split bills, budget planner, hisaab kitaab, SMS expense tracker, credit card bill reminder, EMI tracker, personal finance app India">
+  <link rel="canonical" href="https://mak-cell.github.io/ai-budget-manager/">
+  <meta name="theme-color" content="#0e2a5c">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="style.css">
 
-  <!-- Favicon -->
-  <link rel="icon" href="assets/logo.png" />
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Money: Split, Khata &amp; Budget">
+  <meta property="og:title" content="Money: Split, Khata &amp; Budget – all your money in one private app">
+  <meta property="og:description" content="Expenses from SMS, udhar khata, group bill splitting, budgets, credit cards and EMIs. Your records stay on your phone.">
+  <meta property="og:url" content="https://mak-cell.github.io/ai-budget-manager/">
+  <meta property="og:image" content="https://mak-cell.github.io/ai-budget-manager/assets/og-image.png">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="500">
+  <meta property="og:locale" content="en_IN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Money: Split, Khata &amp; Budget">
+  <meta name="twitter:description" content="Expense tracker, udhar khata and bill splitter in one private app.">
+  <meta name="twitter:image" content="https://mak-cell.github.io/ai-budget-manager/assets/og-image.png">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    body {
-      background: linear-gradient(135deg, #ff9933, #ffffff, #138808);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-
-    .container {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      max-width: 500px;
-      width: 90%;
-    }
-
-    .logo {
-      width: 100px;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: 2.5rem;
-      color: #ff6600;
-      margin-bottom: 10px;
-    }
-
-    p {
-      color: #333;
-      margin-bottom: 30px;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 12px 25px;
-      margin: 10px;
-      border-radius: 30px;
-      text-decoration: none;
-      color: #fff;
-      font-weight: 600;
-      transition: 0.3s ease;
-    }
-
-    .btn-primary {
-      background: #ff6600;
-    }
-
-    .btn-secondary {
-      background: #138808;
-    }
-
-    .btn:hover {
-      transform: scale(1.05);
-      opacity: 0.9;
-    }
-
-    footer {
-      margin-top: 20px;
-      font-size: 0.9rem;
-      color: #555;
-    }
-  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "Money: Split, Khata & Budget",
+    "alternateName": "Money",
+    "operatingSystem": "Android",
+    "applicationCategory": "FinanceApplication",
+    "description": "Private money manager: expenses from bank SMS, udhar khata, group bill splitting, budgets, credit card bill and EMI reminders. No sign-up; records stay on the phone.",
+    "url": "https://mak-cell.github.io/ai-budget-manager/",
+    "image": "https://mak-cell.github.io/ai-budget-manager/assets/icon-192.png",
+    "screenshot": "https://mak-cell.github.io/ai-budget-manager/assets/01_1_trans.webp",
+    "inLanguage": "en-IN",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+    "installUrl": "https://play.google.com/store/apps/details?id=com.makcell.money"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Is Money free?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Every feature is free with a few small ads. Premium (₹365 a year through Google Play) removes all ads." } },
+      { "@type": "Question", "name": "Does Money upload my SMS or bank data?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. Messages are read and parsed on your phone only when you turn detection on. Your transactions and khata are stored on the phone and never uploaded. Groups stay on the phone too unless you choose to share one with friends; only that group is synced. There is no account or sign-up." } },
+      { "@type": "Question", "name": "Can I keep an udhar khata in Money?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Baki Khata records money you lent or borrowed per person, with running balances, and any expense can be tagged as udhar in one tap." } },
+      { "@type": "Question", "name": "How does bill splitting work?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Tag an expense as Split with a group or with friends. Only your share counts as your expense; the rest shows as money others owe you." } },
+      { "@type": "Question", "name": "Can I move my data from another money app?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Export your old app's data to Excel (.xlsx) and import it, or only compare it with what you have in Money." } }
+    ]
+  }
+  </script>
 </head>
-
 <body>
-  <div class="container">
-    <img src="hindu.png" alt="Money: Split, Khata & Budget Logo" class="logo" />
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="./"><img src="assets/icon-192.png" alt="" width="36" height="36">Money</a>
+      <nav aria-label="Main">
+        <a href="#features">Features</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </div>
+  </header>
 
-    <h1>Money: Split, Khata & Budget</h1>
-    <p>Your gateway to spiritual knowledge, books, audio, and videos.</p>
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <div>
+          <h1>Money: Split, Khata &amp; Budget</h1>
+          <p class="lead">One private app for all your money: an expense tracker that reads bank SMS, an udhar khata, a bill splitter for friends and trips, budgets, and credit card reminders.</p>
+          <ul class="chips" aria-label="Features">
+            <li>SMS auto-detect</li>
+            <li>Udhar khata</li>
+            <li>Group splits</li>
+            <li>Budgets &amp; goals</li>
+            <li>Cards &amp; EMIs</li>
+            <li>Smart insights</li>
+          </ul>
+          <div class="privacy-pill">🔒 Private: your data stays on your phone</div><br>
+          <a class="cta" href="https://play.google.com/store/apps/details?id=com.makcell.money">▶ Get it on Google Play</a>
+        </div>
+        <img class="phone" src="assets/01_1_trans.webp" width="540" height="960" alt="Money app home screen showing this month's income, expenses and daily transactions">
+      </div>
+    </section>
 
-    <a href="#" class="btn btn-primary">Explore Books</a>
-    <a href="#" class="btn btn-secondary">Listen Audio</a>
+    <section id="features">
+      <div class="wrap">
+        <h2>Everything about your money, in one place</h2>
+        <p class="sub">Most people use one app for expenses, another for udhar, a third for splitting bills and a spreadsheet for budgets. Money does all of it, and the numbers talk to each other.</p>
 
-    <footer>
-      © 2026 Money: Split, Khata & Budget. All rights reserved.
-    </footer>
-  </div>
+        <div class="feature">
+          <div>
+            <h3>Expenses tracked from bank &amp; UPI SMS</h3>
+            <p>Turn on detection and payments from your bank, card and UPI messages appear for review. You approve each one, and the app learns your accounts and categories.</p>
+            <ul>
+              <li>Finds the account from the card or account number</li>
+              <li>Recognises self-transfers, card bill payments and refunds</li>
+              <li>Flags duplicates and links messages to entries you typed</li>
+            </ul>
+          </div>
+          <img class="shot" src="assets/02_11_detected.webp" width="540" height="960" loading="lazy" alt="Detected transactions from SMS waiting for review">
+        </div>
+
+        <div class="feature">
+          <div>
+            <h3>Split bills with friends and groups</h3>
+            <p>Paid for dinner, a cab or a trip? Mark it Split with a group or with friends. Only your share counts as your expense, and everyone's share is tracked until it is settled.</p>
+            <ul>
+              <li>Trips, flatmates and events with settle-up suggestions</li>
+              <li>Event reports you can share</li>
+            </ul>
+          </div>
+          <img class="shot" src="assets/03_6c_split.webp" width="540" height="960" loading="lazy" alt="Splitting an expense with a group, showing your share">
+        </div>
+
+        <div class="feature">
+          <div>
+            <h3>Udhar khata that adds up</h3>
+            <p>Baki Khata keeps a running balance with every person: what they owe you and what you owe them, including what they owe you in groups.</p>
+            <ul>
+              <li>Tag any payment as udhar and pick the person from contacts</li>
+              <li>Corrections keep the history; nothing is silently deleted</li>
+            </ul>
+          </div>
+          <img class="shot" src="assets/04_4_khata.webp" width="540" height="960" loading="lazy" alt="Baki Khata showing who owes you and whom you owe">
+        </div>
+
+        <div class="feature">
+          <div>
+            <h3>Budgets, insights and forecasts</h3>
+            <p>See next month's likely spend learned from your own history, what changed this month, and money that went to or came from other people.</p>
+            <ul>
+              <li>Budgets suggested from what you really spend</li>
+              <li>Savings goals with target dates</li>
+            </ul>
+          </div>
+          <img class="shot" src="assets/05_2a_insights.webp" width="540" height="960" loading="lazy" alt="Insights screen with next month's forecast and money with others">
+        </div>
+
+        <div class="feature">
+          <div>
+            <h3>Credit cards and EMIs under control</h3>
+            <p>Each card shows its outstanding amount, available limit, bill date and amount still to pay. Reminders repeat until the bill is paid, and EMI conversions show the interest and GST.</p>
+          </div>
+          <img class="shot" src="assets/06_3c_card.webp" width="540" height="960" loading="lazy" alt="Credit card screen with outstanding amount, due date and EMI plan">
+        </div>
+
+        <div class="grid">
+          <div class="card"><h3><span class="dot" style="background:var(--amber)"></span>Accounts</h3><p>Bank, cash, UPI wallets, cards, loans and investments, grouped like you think about them.</p></div>
+          <div class="card"><h3><span class="dot" style="background:var(--mint)"></span>Recurring</h3><p>Rent, SIPs, subscriptions and EMIs are spotted automatically, with reminders the day before.</p></div>
+          <div class="card"><h3><span class="dot" style="background:var(--sky)"></span>Import from Excel</h3><p>Bring your history from another app as an .xlsx file, or only compare it with Money.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="privacy" class="privacy">
+      <div class="wrap">
+        <h2>Private by design</h2>
+        <p class="sub">A finance app should not need your data. Money has no server and no sign-up.</p>
+        <div class="grid">
+          <div class="card"><h3>Stays on your phone</h3><p>Transactions, khata, groups and messages are stored in the app's private storage and never uploaded.</p></div>
+          <div class="card"><h3>SMS read on the device</h3><p>Only when you turn it on, only bank and business senders, and every item waits for your approval.</p></div>
+          <div class="card"><h3>Honest about ads</h3><p>The free version loads non-personalised ads when online. Premium has no ads at all. <a href="privacy.html" style="color:#fff">Read the privacy policy</a>.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="wrap">
+        <h2>Questions</h2>
+        <details><summary>Is Money free?</summary><p>Yes. Every feature is free with a few small ads. Premium (₹365 a year through Google Play) removes all ads.</p></details>
+        <details><summary>Does Money upload my SMS or bank data?</summary><p>No. Messages are read and parsed on your phone only when you turn detection on. Your records are stored on the phone and never uploaded. Only a group you choose to share with friends is synced, and only with the people in it. There is no account or sign-up.</p></details>
+        <details><summary>Can I keep an udhar khata?</summary><p>Yes. Baki Khata records money you lent or borrowed per person, with running balances, and any expense can be tagged as udhar in one tap.</p></details>
+        <details><summary>How does bill splitting work?</summary><p>Tag an expense as Split with a group or with friends. Only your share counts as your expense; the rest shows as money others owe you.</p></details>
+        <details><summary>Can I move my data from another money app?</summary><p>Yes. Export your old app's data to Excel (.xlsx) and import it, or only compare it with what you have in Money.</p></details>
+        <details><summary>How do I back up my data?</summary><p>Settings → Privacy &amp; security → Back up now creates a file you keep wherever you like. Restore it on a new phone.</p></details>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div><a href="privacy.html">Privacy policy</a><a href="terms.html">Terms</a><a href="https://github.com/mak-cell/ai-budget-manager/issues">Support</a></div>
+      <div>© 2026 mak-cell · Money: Split, Khata &amp; Budget</div>
+    </div>
+  </footer>
 </body>
 </html>
