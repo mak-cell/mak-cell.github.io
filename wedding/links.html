@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Guest Links · Smrutisikha & Mohan</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+  :root { --maroon: #5a0d18; --gold: #c99a3b; --cream: #fbf4e6; --paper: #fffaf0; --ink: #3a1f14; --muted: #7b5a48; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 18px/1.5 "Cormorant Garamond", Georgia, serif; color: var(--ink); background: var(--cream); padding: 32px 16px 64px; }
+  main { max-width: 760px; margin: 0 auto; }
+  h1 { font: 400 48px/1.1 "Great Vibes", cursive; color: var(--maroon); text-align: center; }
+  p.sub { text-align: center; color: var(--muted); margin-bottom: 24px; }
+  label { display: block; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 16px 0 6px; }
+  textarea, input { width: 100%; font: 18px "Cormorant Garamond", serif; padding: 10px 12px; border: 1px solid var(--gold); border-radius: 10px; background: var(--paper); color: var(--ink); }
+  textarea { min-height: 180px; resize: vertical; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  button, a.btn { font: 600 16px "Cormorant Garamond", serif; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--maroon); background: var(--maroon); color: #fff3d6; cursor: pointer; text-decoration: none; display: inline-block; }
+  button.ghost, a.ghost { background: transparent; color: var(--maroon); }
+  ul { list-style: none; margin-top: 24px; display: grid; gap: 10px; }
+  li { background: var(--paper); border: 1px solid rgba(201, 154, 59, .45); border-radius: 12px; padding: 12px 14px; display: grid; gap: 8px; }
+  li b { color: var(--maroon); font-size: 20px; }
+  li code { font-size: 14px; word-break: break-all; color: var(--muted); }
+  li .row { margin-top: 0; }
+  .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--maroon); color: #fff3d6; padding: 10px 18px; border-radius: 999px; opacity: 0; transition: opacity .3s; pointer-events: none; }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Guest Links</h1>
+  <p class="sub">One name per line. Each guest gets a link that greets them by name.</p>
+
+  <label for="base">Invitation URL</label>
+  <input id="base">
+
+  <label for="names">Guest names</label>
+  <textarea id="names" placeholder="Sharma Family&#10;Rahul & Priya&#10;Das Uncle"></textarea>
+
+  <label for="note">WhatsApp message (use {name} and {link})</label>
+  <textarea id="note" style="min-height:90px">Namaskar {name} 🙏
+With great joy we invite you to the wedding celebrations of Smrutisikha & Mohan.
+Please open your invitation: {link}</textarea>
+
+  <div class="row">
+    <button id="make" type="button">Create links</button>
+    <button id="copyAll" type="button" class="ghost">Copy all</button>
+  </div>
+  <ul id="out"></ul>
+</main>
+<div class="toast" id="toast">Copied</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
+$("#base").value = new URL("./", location.href).href;
+$("#names").value = store.get("wedding-guests") || "";
+
+const linkFor = n => $("#base").value.trim() + "?to=" + encodeURIComponent(n);
+const msgFor = n => $("#note").value.replaceAll("{name}", n).replaceAll("{link}", linkFor(n));
+const toast = t => { const el = $("#toast"); el.textContent = t; el.classList.add("show"); setTimeout(() => el.classList.remove("show"), 1400); };
+const copy = t => navigator.clipboard.writeText(t).then(() => toast("Copied"), () => toast("Copy failed"));
+
+function render() {
+  const names = [...new Set($("#names").value.split("\n").map(s => s.trim()).filter(Boolean))];
+  store.set("wedding-guests", $("#names").value);
+  const out = $("#out");
+  out.innerHTML = "";
+  names.forEach(n => {
+    const li = document.createElement("li");
+    const b = document.createElement("b"); b.textContent = n;
+    const c = document.createElement("code"); c.textContent = linkFor(n);
+    const row = document.createElement("div"); row.className = "row";
+    const wa = document.createElement("a");
+    wa.className = "btn"; wa.target = "_blank"; wa.rel = "noopener"; wa.textContent = "Send on WhatsApp";
+    wa.href = "https://wa.me/?text=" + encodeURIComponent(msgFor(n));
+    const cp = document.createElement("button"); cp.type = "button"; cp.className = "ghost"; cp.textContent = "Copy link";
+    cp.onclick = () => copy(linkFor(n));
+    const pv = document.createElement("a"); pv.className = "btn ghost"; pv.target = "_blank"; pv.href = linkFor(n); pv.textContent = "Preview";
+    row.append(wa, cp, pv);
+    li.append(b, c, row);
+    out.appendChild(li);
+  });
+  return names;
+}
+$("#make").onclick = render;
+$("#copyAll").onclick = () => { const n = render(); if (n.length) copy(n.map(x => `${x}: ${linkFor(x)}`).join("\n")); };
+if ($("#names").value) render();
+</script>
+</body>
+</html>
