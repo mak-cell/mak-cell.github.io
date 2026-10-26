@@ -220,6 +220,22 @@
   .rsvp .call a { color: var(--gold-soft); }
 
   footer { text-align: center; padding: 48px 16px 24px; color: var(--muted); position: relative; z-index: 10; }
+
+  /* ---------- Music ---------- */
+  .music {
+    position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 40;
+    width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--gold); cursor: pointer;
+    background: var(--maroon); color: var(--gold-soft); box-shadow: 0 8px 22px rgba(90, 13, 24, .35);
+    display: flex; align-items: center; justify-content: center; gap: 3px;
+  }
+  .music:focus-visible { outline: 3px solid var(--marigold); outline-offset: 3px; }
+  .music i { width: 3px; height: 8px; background: currentColor; border-radius: 2px; }
+  .music.playing i { animation: eq 1s ease-in-out infinite; }
+  .music.playing i:nth-child(2) { animation-delay: -.3s; }
+  .music.playing i:nth-child(3) { animation-delay: -.6s; }
+  .music.playing i:nth-child(4) { animation-delay: -.15s; }
+  .music:not(.playing)::after { content: ""; position: absolute; width: 34px; height: 2px; background: var(--gold-soft); transform: rotate(-45deg); }
+  @keyframes eq { 50% { height: 20px; } }
   footer .script { font-size: 40px; color: var(--maroon); display: block; }
 
   @media (prefers-reduced-motion: reduce) {
@@ -334,6 +350,8 @@
   </section>
 </main>
 
+<button class="music" id="musicBtn" type="button" aria-label="Play music" aria-pressed="false" hidden><i></i><i></i><i></i><i></i></button>
+
 <footer class="reveal">
   <span class="script">Smrutisikha &amp; Mohan</span>
   <p>We look forward to celebrating with you.</p>
@@ -344,6 +362,7 @@
 const CONFIG = {
   couple: "Smrutisikha & Mohan",
   rsvpWhatsApp: "917537870782",          // country code + number, no "+"
+  music: "",                             // "" = built-in instrumental; or a file next to this page, e.g. "music.mp3"
   tz: "+05:30",                          // IST
   events: [
     {
@@ -590,12 +609,107 @@ function petals() {
 // Scroll reveal
 const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add("in"); io.unobserve(x.target); } }), { threshold: .12 });
 
+// Music: an audio file if CONFIG.music is set, otherwise a gentle synthesized
+// instrumental (Raag Bhupali melody over a tanpura drone, plucked-string synthesis).
+const music = (() => {
+  let audio, ctx, master, timer, nextAt = 0, step = 0, droneAt = 0, droneStep = 0;
+  const cache = new Map();
+  const SA = 293.66, BEAT = 0.82;
+  const N = { d_: 5 / 6, S: 1, R: 9 / 8, G: 5 / 4, P: 3 / 2, D: 5 / 3, S2: 2, R2: 9 / 4, G2: 5 / 2, "-": 0 };
+  const TUNE = ("G 1 R .5 S .5 d_ 1 S 1 R 1 G 1 P 1 G 1 D 1.5 P .5 G 1 R 1 G 2 - 2 " +
+    "G 1 P 1 D 1 S2 1 R2 .5 S2 .5 D 1 P 2 G 1 P .5 D .5 S2 1 D 1 P 1 G 1 R 1 S 1 - 1 " +
+    "P 1 D 1 S2 1.5 R2 .5 G2 1 R2 .5 S2 .5 D 1 S2 1 D .5 P .5 G 1 R 1 G 2 " +
+    "G 1 R .5 S .5 R 1 G 1 P 1 G .5 R .5 S 2 - 2").trim().split(/\s+/);
+  const DRONE = [3 / 4, 1, 1, 1 / 2];
+
+  function pluck(freq, decay, secs) {        // Karplus-Strong string, rendered once per pitch
+    const key = freq.toFixed(2) + decay;
+    if (cache.has(key)) return cache.get(key);
+    const sr = ctx.sampleRate, len = Math.floor(sr * secs), p = Math.round(sr / freq);
+    const buf = ctx.createBuffer(1, len, sr), y = buf.getChannelData(0);
+    for (let i = 0; i < p; i++) y[i] = Math.random() * 2 - 1;
+    for (let i = 1; i < p; i++) y[i] = (y[i] + y[i - 1]) / 2;
+    for (let i = p; i < len; i++) y[i] = decay * (y[i - p] + y[i - p - 1 >= 0 ? i - p - 1 : i - p]) / 2;
+    cache.set(key, buf);
+    return buf;
+  }
+  function play(buf, at, gain, pan) {
+    const src = ctx.createBufferSource(), g = ctx.createGain(), sp = ctx.createStereoPanner();
+    src.buffer = buf; g.gain.value = gain; sp.pan.value = pan;
+    src.connect(g).connect(sp).connect(master);
+    src.start(at);
+  }
+  function schedule() {
+    const horizon = ctx.currentTime + 1.2;
+    while (nextAt < horizon) {
+      const note = TUNE[step % TUNE.length], beats = +TUNE[(step + 1) % TUNE.length];
+      if (note !== "-") play(pluck(SA * 2 * N[note], .996, 3), nextAt, .55, .15);
+      nextAt += beats * BEAT;
+      step += 2;
+    }
+    while (droneAt < horizon) {
+      play(pluck(SA / 2 * DRONE[droneStep % 4], .9985, 5), droneAt, .32, -.2);
+      droneAt += BEAT;
+      droneStep++;
+    }
+  }
+  function startSynth() {
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    master = ctx.createGain();
+    const verb = ctx.createConvolver(), wet = ctx.createGain(), sr = ctx.sampleRate;
+    const ir = ctx.createBuffer(2, sr * 2.6, sr);
+    for (let c = 0; c < 2; c++) {
+      const d = ir.getChannelData(c);
+      for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 3);
+    }
+    verb.buffer = ir; wet.gain.value = .35;
+    master.connect(ctx.destination);
+    master.connect(verb).connect(wet).connect(ctx.destination);
+    master.gain.setValueAtTime(0, ctx.currentTime);
+    master.gain.linearRampToValueAtTime(.45, ctx.currentTime + 3);
+    nextAt = droneAt = ctx.currentTime + .3;
+    schedule();
+    timer = setInterval(schedule, 300);
+  }
+  return {
+    on: false,
+    start() {
+      if (CONFIG.music) {
+        audio = audio || Object.assign(new Audio(CONFIG.music), { loop: true, volume: .6 });
+        audio.play().catch(() => {});
+      } else if (!ctx) startSynth();
+      else ctx.resume();
+      this.on = true;
+    },
+    stop() {
+      if (audio) audio.pause();
+      if (ctx) ctx.suspend();
+      this.on = false;
+    }
+  };
+})();
+const musicBtn = $("#musicBtn");
+function setMusic(on) {
+  on ? music.start() : music.stop();
+  musicBtn.classList.toggle("playing", on);
+  musicBtn.setAttribute("aria-pressed", on);
+  musicBtn.setAttribute("aria-label", on ? "Pause music" : "Play music");
+}
+let musicWanted = true;
+musicBtn.addEventListener("click", () => { musicWanted = !music.on; setMusic(musicWanted); });
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden && music.on) setMusic(false);
+  else if (!document.hidden && musicWanted && !musicBtn.hidden) setMusic(true);
+});
+
 // Open the doors
 $("#openBtn").addEventListener("click", () => {
   $("#gate").classList.add("open");
   document.body.classList.remove("locked");
   document.querySelectorAll(".reveal").forEach(el => io.observe(el));
   petals();
+  musicBtn.hidden = false;
+  setMusic(true);
   setTimeout(() => { $("#gate").remove(); $("#seal").remove(); }, 1600);
 });
 </script>
