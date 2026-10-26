@@ -34,7 +34,7 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   [hidden] { display: none !important; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: clip; -webkit-text-size-adjust: 100%; }
   body {
     font-family: "Cormorant Garamond", Georgia, serif;
     font-size: 19px;
@@ -206,8 +206,8 @@
     background: var(--paper); border: 1px solid var(--gold); border-radius: 10px; padding: 11px 12px; width: 100%;
   }
   .field textarea { resize: vertical; min-height: 70px; }
-  .choice { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .choice input { position: absolute; opacity: 0; pointer-events: none; }
+  .choice { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; position: relative; }
+  .choice input { position: absolute; left: 0; top: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
   .choice label {
     text-transform: none; letter-spacing: 0; font-size: 17px; text-align: center; cursor: pointer;
     padding: 11px 8px; border-radius: 10px; border: 1px solid var(--gold); color: #fff3d6;
