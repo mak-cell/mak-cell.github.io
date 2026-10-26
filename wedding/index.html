@@ -131,7 +131,33 @@
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s ease, transform .9s ease; }
   .reveal.in { opacity: 1; transform: none; }
 
-  .hero { text-align: center; padding-top: 72px; }
+  .hero { text-align: center; padding-top: 150px; position: relative; }
+
+  /* ---------- Marigold toran (garland) ---------- */
+  .toran { position: absolute; top: 0; left: 0; right: 0; height: 160px; pointer-events: none; overflow: hidden; z-index: 2; }
+  .hero .toran { left: 50%; right: auto; width: 100vw; transform: translateX(-50%); }
+  .toran::before {
+    content: ""; position: absolute; top: 4px; left: 0; right: 0; height: 4px; border-radius: 2px;
+    background: repeating-linear-gradient(90deg, #f57c00 0 9px, #ffca28 9px 18px);
+    box-shadow: 0 2px 3px rgba(90, 13, 24, .25);
+  }
+  .strand {
+    position: absolute; top: 6px; display: flex; flex-direction: column; align-items: center;
+    transform-origin: top center; animation: sway 4.5s ease-in-out infinite alternate;
+  }
+  .strand::before { content: ""; position: absolute; top: 0; bottom: 12px; width: 1px; background: #8a5a14; }
+  .strand i {
+    position: relative; width: 18px; height: 18px; margin-top: -2px; border-radius: 50%;
+    background: radial-gradient(circle, #ffe082 0 16%, transparent 18%), repeating-conic-gradient(#ff9800 0 20deg, #ef6c00 20deg 40deg);
+    box-shadow: inset 0 -3px 4px rgba(120, 40, 0, .35);
+  }
+  .strand i:first-child { margin-top: 2px; }
+  .strand i.y { background: radial-gradient(circle, #fff3c4 0 16%, transparent 18%), repeating-conic-gradient(#ffca28 0 20deg, #ffa000 20deg 40deg); }
+  .strand b {
+    width: 10px; height: 16px; margin-top: 1px; border-radius: 0 100% 0 100%;
+    background: linear-gradient(135deg, #7cb342, #33691e); transform: rotate(45deg);
+  }
+  @keyframes sway { from { transform: rotate(-2.5deg); } to { transform: rotate(2.5deg); } }
   .hero .odia { color: var(--maroon-2); font-size: 15px; }
   .hero .blessing { margin-top: 14px; color: var(--muted); max-width: 26em; margin-left: auto; margin-right: auto; }
   .hero .dear { margin-top: 26px; font-size: var(--step-1); color: var(--maroon); font-weight: 600; letter-spacing: -.015em; }
@@ -168,7 +194,11 @@
   .unit b { display: block; font-family: var(--font-display); font-size: clamp(1.75rem, 1.2rem + 3vw, 2.75rem); line-height: 1; letter-spacing: -.03em; color: var(--maroon); font-weight: 700; font-variant-numeric: tabular-nums; }
   .unit span { display: block; margin-top: 6px; font-size: var(--step--1); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
   .cd-label { text-align: center; margin-top: 14px; color: var(--muted); }
-  .cd-label strong { color: var(--maroon-2); }
+  .cd-label strong { color: var(--maroon-2); font-weight: 650; }
+  .cd-pill {
+    display: table; margin: 14px auto 0; padding: 8px 16px; border-radius: 999px; white-space: nowrap;
+    background: var(--paper); border: 1px solid var(--line); font-size: 15px; color: var(--muted);
+  }
 
   /* ---------- Events ---------- */
   .events { display: grid; gap: 22px; margin-top: 26px; }
@@ -274,6 +304,7 @@
   @media (prefers-reduced-motion: reduce) {
     .petals { display: none; }
     .door, .reveal, .map { transition: none; }
+    .strand { animation: none; }
     .open-btn { animation: none; }
   }
 </style>
@@ -285,6 +316,7 @@
   <div class="door right"></div>
 </div>
 <div class="seal" id="seal">
+  <div class="toran" aria-hidden="true"></div>
   <p class="odia">॥ ଶ୍ରୀ ଗଣେଶାୟ ନମଃ ॥</p>
   <p class="dear" data-guest-line="seal"></p>
   <p class="names script">Smrutisikha <br>&amp; Mohan</p>
@@ -296,6 +328,7 @@
 
 <main>
   <section class="hero reveal">
+    <div class="toran" aria-hidden="true"></div>
     <p class="odia">ଶୁଭ ବିବାହ</p>
     <p class="dear" data-guest-line="hero" hidden></p>
     <p class="blessing">With the blessings of our elders and the grace of the Almighty, we joyfully invite you to celebrate the union of</p>
@@ -601,7 +634,8 @@ function tick() {
   const before = next === wedding && upcoming.find(e => e.start < wedding.start);
   if (before) {
     const days = Math.ceil((before.start - now) / 864e5);
-    label += `<br>${esc(before.title)} ${days > 0 ? `in ${days} day${days > 1 ? "s" : ""}` : "today"} · ${esc(fmtDay(before.start))}`;
+    const short = before.start.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short", timeZone: "Asia/Kolkata" });
+    label += `<span class="cd-pill"><strong>${esc(before.title)}</strong> · ${esc(short)} · ${days > 0 ? `in ${days} day${days > 1 ? "s" : ""}` : "today"}</span>`;
   }
   $("#cdLabel").innerHTML = label;
 }
@@ -624,6 +658,26 @@ form.addEventListener("submit", ev => {
     : `Namaskar! ${name} regrets being unable to attend the wedding celebrations of ${CONFIG.couple}. Wishing you both a lifetime of happiness.`;
   if (form.msg.value.trim()) msg += `\nMessage: ${form.msg.value.trim()}`;
   window.open(`https://wa.me/${CONFIG.rsvpWhatsApp}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
+});
+
+// Marigold garlands: strands dip longer towards the middle, alternating orange and yellow flowers
+document.querySelectorAll(".toran").forEach(toran => {
+  const n = Math.max(7, Math.min(15, Math.round(innerWidth / 44)));
+  for (let s = 0; s < n; s++) {
+    const strand = document.createElement("span");
+    strand.className = "strand";
+    strand.style.left = `calc(${((s + .5) / n) * 100}% - 9px)`;
+    strand.style.animationDelay = `${-(s % 5) * .7}s`;
+    const fromEdge = Math.min(s, n - 1 - s);
+    const flowers = 2 + Math.min(4, fromEdge) + (s % 2);
+    for (let f = 0; f < flowers; f++) {
+      const i = document.createElement("i");
+      if ((f + s) % 2) i.className = "y";
+      strand.appendChild(i);
+    }
+    strand.appendChild(document.createElement("b"));
+    toran.appendChild(strand);
+  }
 });
 
 // Petals
