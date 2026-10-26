@@ -181,19 +181,28 @@
     content: ""; position: absolute; inset: 7px; border: 1px dashed rgba(201, 154, 59, .4);
     border-radius: 13px; pointer-events: none;
   }
-  .card .num {
-    position: absolute; top: 14px; right: 18px; font-size: 56px; line-height: 1; font-weight: 800; letter-spacing: -.05em;
-    font-family: var(--font-display); color: rgba(201, 154, 59, .2);
+  .card .day {
+    position: absolute; top: 20px; right: 20px; width: 58px; padding: 7px 0 8px; text-align: center;
+    border-radius: 14px; background: var(--maroon); color: #fff3d6; box-shadow: 0 6px 16px rgba(90, 13, 24, .22);
+    font-family: var(--font-display); font-size: 26px; font-weight: 700; letter-spacing: -.03em; line-height: 1;
   }
-  .card h3 { font-family: var(--font-display); font-size: var(--step-2); font-weight: 700; letter-spacing: -.025em; color: var(--maroon); line-height: 1.15; padding-right: 48px; margin-top: 2px; }
+  .card .day small { display: block; margin-bottom: 3px; font-size: 11px; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-soft); }
+  .card h3 { font-family: var(--font-display); font-size: var(--step-2); font-weight: 700; letter-spacing: -.025em; color: var(--maroon); line-height: 1.15; padding-right: 72px; margin-top: 2px; }
+  .card .kind { padding-right: 72px; }
   .card .kind { font-size: var(--step--1); letter-spacing: .14em; text-transform: uppercase; color: #a87a22; font-weight: 650; }
   .meta { display: grid; gap: 8px; margin-top: 14px; }
   .meta div { display: flex; gap: 12px; align-items: flex-start; }
   .meta svg { flex: 0 0 20px; width: 20px; height: 20px; margin-top: 3px; color: var(--gold); }
   .meta .tba { color: var(--muted); }
-  .schedule { margin: 14px 0 0; padding: 12px 14px; background: rgba(242, 159, 5, .08); border-left: 3px solid var(--marigold); border-radius: 0 10px 10px 0; }
-  .schedule li { list-style: none; display: flex; gap: 12px; }
-  .schedule li b { min-width: 64px; color: var(--maroon-2); }
+  /* Mini timeline: gold dots joined by a hairline */
+  .schedule { margin: 16px 0 0; position: relative; display: grid; gap: 12px; }
+  .schedule::before { content: ""; position: absolute; left: 5px; top: .75em; bottom: .75em; width: 1px; background: var(--gold); opacity: .6; }
+  .schedule li { list-style: none; display: flex; gap: 12px; padding-left: 26px; position: relative; }
+  .schedule li::before {
+    content: ""; position: absolute; left: 0; top: .42em; width: 11px; height: 11px; border-radius: 50%;
+    background: var(--paper); border: 2px solid var(--marigold);
+  }
+  .schedule li b { min-width: 74px; color: var(--maroon-2); font-weight: 650; font-variant-numeric: tabular-nums; }
   .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
   .actions > .btn { justify-content: center; }
   .actions > .btn.solid, .actions > .cal-menu { grid-column: 1 / -1; }  .btn {
@@ -485,7 +494,7 @@ CONFIG.events.forEach((e, i) => {
   const card = document.createElement("article");
   card.className = "card reveal";
   card.innerHTML = `
-    <span class="num">${i + 1}</span>
+    ${d ? `<span class="day" aria-hidden="true"><small>${esc(d.toLocaleDateString("en-IN", { month: "short", timeZone: "Asia/Kolkata" }))}</small>${esc(d.toLocaleDateString("en-IN", { day: "2-digit", timeZone: "Asia/Kolkata" }))}</span>` : ""}
     <p class="kind">${esc(e.kind)}</p>
     <h3>${esc(e.title)}</h3>
     <div class="meta">
