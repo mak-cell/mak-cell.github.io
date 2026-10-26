@@ -194,11 +194,13 @@
   .schedule { margin: 14px 0 0; padding: 12px 14px; background: rgba(242, 159, 5, .08); border-left: 3px solid var(--marigold); border-radius: 0 10px 10px 0; }
   .schedule li { list-style: none; display: flex; gap: 12px; }
   .schedule li b { min-width: 64px; color: var(--maroon-2); }
-  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
-  .btn {
+  .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+  .actions > .btn { justify-content: center; }
+  .actions > .btn.solid, .actions > .cal-menu { grid-column: 1 / -1; }  .btn {
     display: inline-flex; align-items: center; gap: 8px;
     font: 600 15px/1 var(--font); letter-spacing: -.01em;
-    padding: 11px 16px; border-radius: 999px; cursor: pointer; text-decoration: none;
+    min-height: 46px; padding: 12px 16px; border-radius: 999px; cursor: pointer; text-decoration: none;
+    -webkit-tap-highlight-color: transparent; touch-action: manipulation;
     border: 1px solid var(--maroon); color: var(--maroon); background: transparent;
     transition: background .2s, color .2s;
   }
@@ -207,10 +209,11 @@
   .btn.solid { background: var(--maroon); color: #fff3d6; }
   .btn.solid:hover { background: var(--maroon-2); }
   .btn:focus-visible { outline: 2px solid var(--marigold); outline-offset: 2px; }
-  .cal-menu { display: none; gap: 8px; flex-wrap: wrap; width: 100%; }
-  .cal-menu.show { display: flex; }
-  .map { margin-top: 16px; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); height: 0; transition: height .4s ease; }
-  .map.show { height: 260px; }
+  .cal-menu { display: none; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .cal-menu.show { display: grid; }
+  .cal-menu .btn { justify-content: center; font-size: 14px; padding: 12px 10px; }
+  .map { margin-top: 0; border-radius: 12px; overflow: hidden; height: 0; transition: height .4s ease, margin .4s ease; }
+  .map.show { height: 260px; margin-top: 16px; border: 1px solid var(--line); }
   .map iframe { width: 100%; height: 260px; border: 0; display: block; }
 
   /* ---------- RSVP ---------- */
@@ -234,8 +237,11 @@
   .choice input:focus-visible + label { outline: 2px solid #fff3d6; outline-offset: 2px; }
   .rsvp .btn.solid { background: var(--gold); color: var(--maroon); border-color: var(--gold); margin-top: 22px; width: 100%; justify-content: center; font-size: 17px; padding: 16px; }
   .rsvp .btn.solid:hover { background: var(--gold-soft); }
-  .rsvp .call { margin-top: 18px; text-align: center; font-size: 16px; }
-  .rsvp .call a { color: var(--gold-soft); }
+  .rsvp .call { margin-top: 18px; text-align: center; font-size: 15px; color: var(--gold-soft); }
+  .rsvp .call a {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 46px; margin-top: 6px; padding: 0 20px;
+    border: 1px solid rgba(231, 199, 122, .6); border-radius: 999px; color: #fff3d6; font-weight: 600; text-decoration: none;
+  }
 
   footer { text-align: center; padding: 48px 16px 24px; color: var(--muted); position: relative; z-index: 10; }
 
@@ -363,7 +369,7 @@
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg>
         Send RSVP on WhatsApp
       </button>
-      <p class="call">Questions? Call Mohan · <a href="tel:+917537870782">+91 75378 70782</a></p>
+      <p class="call">Questions?<br><a href="tel:+917537870782"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" style="margin-right:8px"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>Call Mohan · 75378 70782</a></p>
     </form>
   </section>
 </main>
@@ -491,10 +497,10 @@ CONFIG.events.forEach((e, i) => {
     <div class="actions">
       <a class="btn solid" href="${esc(e.mapLink)}" target="_blank" rel="noopener">${ICON.nav}${esc(e.linkText || "Directions")}</a>
       <button class="btn" type="button" data-map="${i}" aria-expanded="false">${ICON.map}Show map</button>
-      ${d ? `<button class="btn" type="button" data-cal="${i}" aria-expanded="false">${ICON.plus}Add to calendar</button>` : ""}
+      ${d ? `<button class="btn" type="button" data-cal="${i}" aria-expanded="false">${ICON.plus}Save date</button>` : ""}
       ${d ? `<div class="cal-menu" id="cal${i}">
-        <a class="btn" target="_blank" rel="noopener" href="${esc(googleCal(e))}">Google Calendar</a>
-        <button class="btn" type="button" data-ics="${i}">Apple / Outlook (.ics)</button>
+        <a class="btn" target="_blank" rel="noopener" href="${esc(googleCal(e))}">Google</a>
+        <button class="btn" type="button" data-ics="${i}">iPhone · Outlook</button>
       </div>` : ""}
     </div>
     <div class="map" id="map${i}"></div>`;
