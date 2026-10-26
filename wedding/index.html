@@ -9,7 +9,7 @@
 <meta property="og:description" content="Engagement · Haldi · Baranu Gamana · Reception. Tap to open your invitation.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mak-cell.github.io/wedding/">
-<meta property="og:image" content="https://mak-cell.github.io/wedding/img/cover.jpg">
+<meta property="og:image" content="https://mak-cell.github.io/wedding/img/cover.jpg?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -282,7 +282,7 @@
       </figure>
       <span class="heart" aria-hidden="true">&amp;</span>
       <figure class="person">
-        <div class="frame"><img src="img/groom.jpg" alt="Mohan" style="object-position: 50% 30%" loading="lazy"></div>
+        <div class="frame"><img src="img/groom.jpg" alt="Mohan" style="object-position: 50% 0%" loading="lazy"></div>
         <h3>Mohan</h3>
         <p>The Groom</p>
       </figure>
@@ -361,6 +361,7 @@
 /* ============ Edit the invitation here ============ */
 const CONFIG = {
   couple: "Smrutisikha & Mohan",
+  weddingDate: "2027-01-29",             // shown under "are getting married"
   rsvpWhatsApp: "917537870782",          // country code + number, no "+"
   music: "",                             // "" = built-in instrumental; or a file next to this page, e.g. "music.mp3"
   tz: "+05:30",                          // IST
@@ -437,13 +438,7 @@ const dated = CONFIG.events.map((e, i) => ({ ...e, i })).filter(e => e.date).map
   start: at(e.date, e.time),
   over: e.time ? at(e.date, e.end || e.time).getTime() + 3 * 3600e3 : at(e.date).getTime() + 864e5
 }));
-if (dated.length) {
-  const first = dated.reduce((a, b) => a.start < b.start ? a : b).start;
-  const last = dated.reduce((a, b) => a.start > b.start ? a : b).start;
-  const y = last.getFullYear();
-  const firstYear = first.getFullYear() !== y ? ` ${first.getFullYear()}` : "";
-  $("#heroDates").textContent = fmtShort(first) === fmtShort(last) ? fmtDay(first) : `${fmtShort(first)}${firstYear} – ${fmtShort(last)} ${y}`;
-}
+$("#heroDates").textContent = fmtDay(at(CONFIG.weddingDate));
 
 // Icons
 const ICON = {
@@ -554,8 +549,12 @@ function downloadIcs(e) {
 // Countdown to the next upcoming event
 const pad = n => String(n).padStart(2, "0");
 function tick() {
+  // Counts down to the wedding day; earlier events (the engagement) get their own line below.
+  // Once the wedding day is over, it moves on to whatever event is still ahead.
   const now = Date.now();
-  const next = dated.filter(e => e.over > now).sort((a, b) => a.date.localeCompare(b.date) || a.i - b.i)[0];
+  const upcoming = dated.filter(e => e.over > now).sort((a, b) => a.date.localeCompare(b.date) || a.i - b.i);
+  const wedding = { title: "our Wedding", start: at(CONFIG.weddingDate), over: at(CONFIG.weddingDate).getTime() + 864e5 };
+  const next = wedding.over > now ? wedding : upcoming[0];
   if (!next) {
     $("#countdownSection").innerHTML = '<h2>Thank you</h2><p class="h2-sub">for being part of our celebrations and for your blessings.</p>';
     return clearInterval(timer);
@@ -565,7 +564,13 @@ function tick() {
   $("#cdH").textContent = pad(Math.floor(diff / 36e5) % 24);
   $("#cdM").textContent = pad(Math.floor(diff / 6e4) % 60);
   $("#cdS").textContent = pad(Math.floor(diff / 1e3) % 60);
-  $("#cdLabel").innerHTML = diff ? `until <strong>${esc(next.title)}</strong> · ${esc(fmtDay(next.start))}` : `<strong>${esc(next.title)}</strong> is happening today!`;
+  let label = diff ? `until <strong>${esc(next.title)}</strong> · ${esc(fmtDay(next.start))}` : `<strong>${esc(next.title)}</strong> is today!`;
+  const before = next === wedding && upcoming.find(e => e.start < wedding.start);
+  if (before) {
+    const days = Math.ceil((before.start - now) / 864e5);
+    label += `<br>${esc(before.title)} ${days > 0 ? `in ${days} day${days > 1 ? "s" : ""}` : "today"} · ${esc(fmtDay(before.start))}`;
+  }
+  $("#cdLabel").innerHTML = label;
 }
 const timer = setInterval(tick, 1000);
 tick();
