@@ -135,7 +135,7 @@ textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1p
   </section>
 
   <section class="panel">
-    <h2 style="margin-bottom:10px">Weeks 2 to 26</h2>
+    <h2 style="margin-bottom:10px">25 weeks</h2>
     <ul class="weeks" id="weeks"></ul>
   </section>
   <section class="panel">
@@ -186,7 +186,7 @@ function streaks(){
 function render(){
   const w = weekOf(today);
   const r = reading[todayIso];
-  $("todayLabel").textContent = today.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"short"}) + (w>=0&&w<=26 ? " · week "+w : "");
+  $("todayLabel").textContent = today.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"short"}) + (w>=FIRST_WEEK&&w<=26 ? " · week "+(w-1) : "");
   if(r){ $("todayTopic").textContent=r[2]; $("todayLink").innerHTML = r[3] ? '<a target="_blank" rel="noopener"></a>' : ""; if(r[3]){const a=$("todayLink").firstChild;a.href=r[3];a.textContent="Open today's reading";} }
   else if(w===0){ $("todayTopic").textContent="Warm-up: pointers part 2, struct padding, bit ops"; $("todayLink").innerHTML='<span class="sync">Ask Claude in the Career Coach thread for today\'s 15-minute task.</span>'; }
   else { $("todayTopic").textContent = (today.getDay()===6?"Saturday build: ":"Sunday teach-back: ") + (WEEKS[w]||"review"); $("todayLink").innerHTML='<span class="sync">Weekend block. Even 15 minutes keeps the streak.</span>'; }
@@ -199,7 +199,7 @@ function render(){
   $("sLeft").textContent=Math.max(0,Math.round((END-today)/DAY));
   const pct = Math.min(100,Math.max(0,Math.round((today-START)/(END-START)*100)));
   $("pctBar").style.width=pct+"%"; $("pctLabel").textContent=pct+"% of the plan's time";
-  $("weekLabel").textContent = w<0 ? "Starts 23 Nov" : w>26 ? "Plan complete" : "Day "+dayNo+" · Week "+w+" of 26 · "+WEEKS[w];
+  $("weekLabel").textContent = w<0 ? "Starts 23 Nov" : w>26 ? "Plan complete" : "Day "+dayNo+" · Week "+(w-1)+" of 25 · "+WEEKS[w];
 
   const y1 = iso(new Date(today-DAY)), y2 = iso(new Date(today-2*DAY));
   const nudge=$("nudge");
@@ -231,7 +231,7 @@ function render(){
     det.ontoggle=()=>{ det.open?openWeeks.add(i):openWeeks.delete(i); };
     const sm=document.createElement("summary");
     sm.innerHTML='<span class="n"></span><span class="t"></span><span class="bar"><i></i></span><span class="c"></span>';
-    sm.children[0].textContent="W"+i; sm.children[1].textContent=t+" · "+ws.toLocaleDateString(undefined,{day:"numeric",month:"short"});
+    sm.children[0].textContent="W"+(i-1); sm.children[1].textContent=t+" · "+ws.toLocaleDateString(undefined,{day:"numeric",month:"short"});
     sm.children[2].firstChild.style.width=(n/7*100)+"%"; sm.children[3].textContent=n+"/7 days";
     det.appendChild(sm);
     const plan=document.createElement("ul"); plan.className="plan";
