@@ -135,7 +135,7 @@ textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1p
   </section>
 
   <section class="panel">
-    <h2 style="margin-bottom:10px">26 weeks</h2>
+    <h2 style="margin-bottom:10px">Weeks 2 to 26</h2>
     <ul class="weeks" id="weeks"></ul>
   </section>
   <section class="panel">
@@ -223,6 +223,7 @@ function render(){
 
   const ul=$("weeks"); ul.innerHTML="";
   WEEKS.forEach((t,i)=>{
+    if(i<FIRST_WEEK) return; // weeks 0-1 finished in Oct, before the restart
     let n=0; for(let k=0;k<7;k++) if(done.has(iso(new Date(+weekStart(i)+k*DAY)))) n++;
     const li=document.createElement("li"); if(i===w) li.className="cur";
     const ws=weekStart(i);
